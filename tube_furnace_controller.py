@@ -4,26 +4,56 @@ import csv
 import matplotlib.pyplot as plt
 import numpy as np
 import math
-import msvcrt
 from collections import deque
 from dataclasses import dataclass
 import json
 import os
 from tqdm import tqdm
 
+if os.name == 'nt':
+    import msvcrt
+else:
+    import termios
+    import tty
+    import select
+
+def kbhit():
+    if os.name == 'nt':
+        return msvcrt.kbhit()
+    else:
+        # Non-blocking check for Linux/macOS
+        dr, dw, de = select.select([sys.stdin], [], [], 0)
+        return dr != []
+
+def getch():
+    if os.name == 'nt':
+        return msvcrt.getch().decode().lower()
+    else:
+        # Save terminal settings to restore them later
+        fd = sys.stdin.fileno()
+        old_settings = termios.tcgetattr(fd)
+        try:
+            tty.setcbreak(fd)  # Set terminal to read single characters
+            return sys.stdin.read(1).lower()
+        finally:
+            termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+
 @dataclass
 class SystemConfig:
+    # Setup
+    wipe_memory: bool = True
+
     # Network Connection (Check Device Manager/Ports of the cable connection)
     port: str = 'COM5'
     baud: int = 9600
 
     # Timing & Logs
     sample_time_s: float = 1.0          # Global tick for Main Loop Sampling Time
-    relay_period_s: float = 20.0        # Relay Cycle Duration in s, default: 20s
-    log_history_s: float = 3600.0       # Log time in s to prevent Memory Leak
+    relay_period_s: int = 200           # Relay Cycle Duration in s, default: 20s
+    log_history_s: float = 300.0        # Log time in s to prevent Memory Leak
     
     # Physics & Hardware Limits
-    voltage: float = 120.0              # Variac 120/140V
+    voltage: float = 140.0              # Variac 120/140V
     temp_limit_low: float = 0.0         # Lower Temperature Limit: 0°C
     temp_limit_high: float = 1150.0     # Upper Temperature Limit: 1150°C
     safety_limit: float = 1120.0        # Force Shutdown Temperature: 1120°C
@@ -31,7 +61,7 @@ class SystemConfig:
     max_allowed_rate: float = 35.0      # Force Shutdown Ramp Rate: 35°C/min
     rate_hys: float = 5.0               # Rate Hysteresis Setting for Force Shutdown
     wire_gauge: int = 26                # Kanthal A-1 26g
-    wire_density_kg_per_m3: float = 7.1 # Kanthal A-1 Density: 7100kg/m^3
+    wire_density_kg_per_m3: float = 7100# Kanthal A-1 Density: 7100kg/m^3
     wire_length_ft: float = 10.0        # 120" Heating Coil Length
     resistance_per_ft: float = 3.2      # Kanthal A-1 26g Resistance: 3.2Ω/ft
     
@@ -135,7 +165,7 @@ class DeltaDTB: #Hold SET Button, click cycle until seeing Co5H, turn it on to e
     PTN_CYCLE_BASE      = 0x1050 # Repeating number of the 0 ~ 7 pattern (0 ~ 99 indicate that this pattern has been executed for 1 ~ 100 times)
 
     # Execution Status Addresses
-    TIME_REMAIN_SEC = 0x103D  # Time remaining of present step (Seconds)
+    TIME_REMAIN_SEC = 0x103D  # Total Step Time of current Relay Cycle Duration
     TIME_REMAIN_MIN = 0x103E  # Time remaining of present step (Minutes)
     CURR_STEP       = 0x1034  # Present executing step number
     CURR_PATTERN    = 0x1035  # Present executing pattern number
@@ -162,7 +192,7 @@ class DeltaDTB: #Hold SET Button, click cycle until seeing Co5H, turn it on to e
         payload = f"{self.slave_id:02X}06{addr_hex}{val_hex}"
         cmd = f":{payload}{self._calculate_lrc(payload)}\r\n".encode('ascii')
         self.ser.write(cmd)
-        time.sleep(0.1) # Wait for controller
+        #time.sleep(0.1) # Wait for controller
         resp = self.ser.read(100)
     
         # Fallout Debug Logic
@@ -204,22 +234,22 @@ class DeltaDTB: #Hold SET Button, click cycle until seeing Co5H, turn it on to e
             resp = self.ser.read(100)
         
             if not resp:
-                print(f"ERROR: Read timeout at {hex(start_address)}")
+                print(f"\nERROR: Read timeout at {hex(start_address)}")
                 return None # Failed Read = None
             if not resp.startswith(b':') or not resp.endswith(b'\r\n'): # Basic Modbus ASCII frame validation (starts with : and ends with \r\n)
-                print(f"CORRUPTED: Invalid frame from {hex(start_address)}")
+                print(f"\nCORRUPTED: Invalid frame from {hex(start_address)}")
                 return None # Failed Read = None
             if resp[3:5] == b'83': # Exception check :1083 (03 Read Function Code + 80 Modbus SignaL = 83)
-                print(f"REJECTED READ: Exception Code {resp[5:7].decode()}")
+                print(f"\nREJECTED READ: Exception Code {resp[5:7].decode()}")
                 return None # Failed Read = None
             return resp # Successful Read = response message
         
         except serial.SerialException as e:
-            print(f"SERIAL ERROR: {e}. Reconnecting...")
+            print(f"\nSERIAL ERROR: {e}. Reconnecting...")
             time.sleep(2)
             return None # Failed Read = None
         except Exception as e:
-            print(f"INTERNAL DATA ERROR in read_register: {e}")
+            print(f"\nINTERNAL DATA ERROR in read_register: {e}")
             return None # Failed Read = None
     
     def _parse_response(self, resp, reg_index=0):
@@ -249,7 +279,7 @@ class DeltaDTB: #Hold SET Button, click cycle until seeing Co5H, turn it on to e
                     "8007": "Memory Error (8007H)" # 8007H : Memory read/write error
                 }
                 if hex_val in error_codes:
-                    print(f"FURNACE ERROR: {error_codes[hex_val]}")
+                    print(f"\nFURNACE ERROR: {error_codes[hex_val]}")
                     return None # Failed Read = None  
                 # Return the temperature if no error
                 return val_dec / 10.0 # Return Sensor Temperature(°C)
@@ -303,7 +333,8 @@ class DeltaDTB: #Hold SET Button, click cycle until seeing Co5H, turn it on to e
         # Shut off Heating
         self.safe_write(self.CTRL_METHOD, 2) # Manual Mode (Address 1005H = 2)
         self.safe_write(self.OUT1_VOL, 0) # Set Power to 0 (Address 1012H)
-        self.wipe_memory() # Clear Memory
+        if self.cfg.wipe_memory:
+            self.wipe_memory() # Clear Memory
         self.safe_write(self.SENSOR_TYPE, 0) # K-type Thermocouple value is 0
         self.safe_write(self.SV, 0) # Clear the SV to 0°C and prevent limit conflicts
         self.safe_write(self.LIMIT_HIGH, int(self.cfg.temp_limit_high * 10)) # Set Upper limit first to avoid conflict of lower limit, expand the allowable range (Exception Code: 03 Rejected maybe because the existing upper limit is already 1150.0°C.)
@@ -311,7 +342,7 @@ class DeltaDTB: #Hold SET Button, click cycle until seeing Co5H, turn it on to e
         self.safe_write(self.HEAT_COOL_SEL, 0) # Force Heating mode
         self.safe_write(self.CTRL_METHOD, 3) # PID Program Control Mode (Address 1005H = 3)
         self.safe_write(self.CYCLE_TIME, self.cfg.relay_period_s) # relay_period: The time window for the duty cycle, longer period extends mechanical relay life during pulsing.
-
+    
     # --- Pattern, Step, Flow Setup ---
     def set_pattern_step(self, pattern, step, temp, minutes):
         """
@@ -360,7 +391,7 @@ class DeltaDTB: #Hold SET Button, click cycle until seeing Co5H, turn it on to e
         # Program the pattern flow
         last_steps = num_steps - 1 # Last Step Index 0 ~ 7
         self.config_pattern_logic(pattern, last_steps, next_ptn, repeat) # Set endpoint(Step) of Pattern Index and link to next Pattern after Repeating Number of Selected Pattern Index
-        print(f"Pattern {pattern} Loaded: {num_steps - start_point} steps, Next: {next_ptn}, Repeat: {repeat}")
+        print(f"\nPattern {pattern} Loaded: {num_steps - start_point} steps, Next: {next_ptn}, Repeat: {repeat}")
     
     def load_recipe(self, flow_dict): # STOP before loading Master Dictionary
         """
@@ -388,41 +419,41 @@ class DeltaDTB: #Hold SET Button, click cycle until seeing Co5H, turn it on to e
         pos_data = self.read_register(self.CURR_STEP, 2)
         
         # 2. Read Time Remaining (Separate block at 103DH)
-        time_data = self.read_register(self.TIME_REMAIN_SEC, 1)
+        time_data = self.read_register(self.TIME_REMAIN_MIN, 1)
 
         if pos_data and time_data:
             try:
                 # Parsing based on your parse_response (assuming index refers to register position)
                 step    = int(self._parse_response(pos_data, 0), 16)
                 pattern = int(self._parse_response(pos_data, 1), 16)
-                sec_rem = int(self._parse_response(time_data, 0), 16)
+                min_rem = int(self._parse_response(time_data, 0), 16)
                 """
                 # Format seconds into MM:SS
                 minutes, seconds = divmod(sec_rem, 60)
                 time_str = f"{minutes:02d}:{seconds:02d}"
                 """
-                return pattern, step, sec_rem
+                return pattern, step, min_rem
             except (ValueError, TypeError, IndexError) as e:
                 print(f"DEBUG: Status Parse Error: {e}")
         else:
-            print(f"DEBUG: Status Read Failed/Parse Error: (Pos: {len(pos_data) if pos_data else 0}, Time: {len(time_data) if time_data else 0})")
+            print(f"\nDEBUG: Status Read Failed/Parse Error: (Pos: {len(pos_data) if pos_data else 0}, Time: {len(time_data) if time_data else 0})")
         
         # Return safe defaults if anything fails to prevent script crash
         return 0, 0, 0
         
     def live_load_recipe(self, new_profile_dict): # STOP or HOLD before live loading
         """Overwrite the PID Memory."""
-        print("\nINTERRUPT: Loading new profile...")
+        print("INTERRUPT: Loading new profile...")
         try:
             self.load_recipe(new_profile_dict)
             self.safe_write(self.CTRL_METHOD, 3) # PID Program Control Mode (Address 1005H = 3)
             self.safe_write(self.START_PATTERN, 0) # Force the controller to look at Pattern 0, Step 0 immediately
-            self.safe_write(self.TIME_REMAIN_SEC, 0) # Resetting Start Pattern (1030H) and clearing current timer (1032H)
+            self.safe_write(self.TIME_REMAIN_MIN, 0) # Resetting Start Pattern (1030H) and clearing current timer (1032H)
             
             self.hold(False) # Release the HOLD and Resume
             print("--- New Profile Active and Jumped to Pattern 0 Step 0 ---")
         except Exception as e:
-            print(f"FAILED to load profile: {e}")
+            print(f"\nFAILED to load profile: {e}")
             self.hold(False) # Resume so it doesn't stay stuck from menu
     
     
@@ -474,14 +505,14 @@ class DeltaDTB: #Hold SET Button, click cycle until seeing Co5H, turn it on to e
         val = 3 if enable_hold else 1 # True: Return 3, False: Return 1
         state_text = "PAUSING (Hold)" if enable_hold else "RESUMING"
         if self.safe_write(self.RUN_STOP, val): # Sucessful Write = True
-            print(f"{state_text} Program...")
+            print(f"\n{state_text} Program...")
             return True # Sucessful Write = True
         return False # Failed Write = True
     
     def skip_step(self):
         """Forces the current step to end by setting remaining time to 0."""
         self.run() # Only response to timer when it is in RUN Mode
-        return self.safe_write(self.TIME_REMAIN_SEC, 0) # Return Boolean: True(skip); False(failed skip)
+        return self.safe_write(self.TIME_REMAIN_MIN, 0) # Return Boolean: True(skip); False(failed skip)
     
     def wipe_memory(self):
         """Resets device memory to 0."""
@@ -489,31 +520,22 @@ class DeltaDTB: #Hold SET Button, click cycle until seeing Co5H, turn it on to e
         if not self.stop(): # Prevent Program Running while clearing memory
             print("Warning: Could not verify Stop command before wipe. Proceeding with wipe...")
         time.sleep(0.5) # Wait for hardware
-        # Wipe Temperatures (2000H to 203FH = 64 registers) in 4 blocks of 16 (4 * 16 = 64)
-        zeros_16 = [0] * 16
-        zeros_8 = [0] * 8
-        links_8 = [8] * 8 # Set links to 8 (Stop) instead of 0
-        for i in range(4):
-            start_addr = self.TEMP_BASE + (i * 16)
-            self.safe_write(start_addr, zeros_16)
-            time.sleep(0.1) # Cooldown for EEPROM
         
-        # Wipe Execution Times (2080H to 20BFH = 64 registers) in 4 blocks of 16
-        for i in range(4):
-            start_addr = self.TIME_BASE + (i * 16)
-            self.safe_write(start_addr, zeros_16)
-            time.sleep(0.1) # Cooldown for EEPROM
+        # Helper to write blocks accurately
+        def write_block(base_addr, values):
+            for offset, val in enumerate(values):
+                self.safe_write(base_addr + offset, val)
+
+        # Wipe logi
+        write_block(self.TEMP_BASE, [0] * 64)
+        write_block(self.TIME_BASE, [0] * 64)
         
-        # Wipe Configs: 1040H to 1047H(Step), 1050H to 1057H(Cycle), 1060H to 1067H(Link)
-        self.safe_write(self.ACTUAL_STEP_BASE, zeros_8) # Reset Actual Steps to 0
-        time.sleep(0.1) # Cooldown for EEPROM
-        self.safe_write(self.PTN_CYCLE_BASE, zeros_8) # Reset Cycles to 0
-        time.sleep(0.1) # Cooldown for EEPROM
-        self.safe_write(self.LINK_PTN_BASE, links_8) # Reset Links to 'End' (8)
-        time.sleep(0.1) # Cooldown for EEPROM
+        write_block(self.ACTUAL_STEP_BASE, [0] * 8)
+        write_block(self.PTN_CYCLE_BASE, [0] * 8)
+        write_block(self.LINK_PTN_BASE, [8] * 8)
         print("Memory Cleared.")
     
-class HeatingCoilModel:
+class HeatingCoilModel: # Disabled because of inaccurate physic
     def __init__(self, config: SystemConfig, start_temp: float = 0.0):
         # Load Setting
         self.cfg = config
@@ -588,6 +610,7 @@ class PIDProgramManager:
         self.check_cool, self.confirm_cool, self.enter_cool = False, False, False
         self.keep_logging = True
         # Menu
+        self.menu_level = None
         self.in_menu = False
         self.input_active = False
         self.input_sequence, self.input_results = [], []
@@ -595,11 +618,13 @@ class PIDProgramManager:
         self.input_prompt, self.input_buffer = "", ""
         self.final_callback = None
         # Processing State
+        self.tuning_state = None
         self.ctrl_method = 3            # PID Program Control Mode (Address 1005H = 3)
         self.in_operation_mode = False  # PID Mode (Address 1005H = 0)
         self.in_cooling_mode = False    # Manual Mode (Address 1005H = 2)
 
         # Plotting Setup
+        self.last_plot_update = 0
         plt.ion()
         self.fig, self.ax = plt.subplots()
         self.line, = self.ax.plot([], [], 'r-') # Create empty line object
@@ -617,7 +642,6 @@ class PIDProgramManager:
         }
     
     # --- State Check Helper Function ---
-    @property
     def current_status(self):
         """Returns a string label of the current machine state."""
         if self.in_cooling_mode: return "COOLING"
@@ -626,7 +650,6 @@ class PIDProgramManager:
         if self.in_operation_mode: return "OPERATING"
         return "HEATING"
     
-    @property
     def is_ramp_active(self): # In RAMP Mode and not in OPERATING or COOLING Mode or Auto-Tune or in Control Method outside PID Program Control Mode (Address 1005H = 3)
         """Checks if the system is currently in RAMP Mode."""
         return (
@@ -638,8 +661,8 @@ class PIDProgramManager:
     )
     
     # --- Math Helper Function ---
-    def calculate_runtime_min(self, original_duration_min, remained_sec):
-        return max(1, math.ceil(original_duration_min * 60 - remained_sec) / 60) # Round up to minute, minimum 1 minute
+    def calculate_runtime_min(self, original_duration_min, remained_min):
+        return max(1, math.ceil(original_duration_min - remained_min)) # Round up to minute, minimum 1 minute
 
     def calculate_duration_min(self, final_temp, current_temp): # Uses max_ramp_rate from SystemConfig.
         diff = abs(final_temp - current_temp)
@@ -676,17 +699,18 @@ class PIDProgramManager:
             window = self.cfg.stability_window_number # Default Sampling Number Stability Check from SystemConfig if no input
         self.dc_initial = np.mean(self.power_history[-window:]) # Pull average Power (%) for latest input window number
         input_temp = None if self.is_ramp_active else self.current_temp # Handle RAMP Mode Logic
-        self.dc_target = self.predictor.calculate_power_drop(self.dc_initial, input_temp) # Predict endpoint of current Cooling Cycle automatically
+        #self.dc_target = self.predictor.calculate_power_drop(self.dc_initial, input_temp) # Predict endpoint of current Cooling Cycle automatically
+        self.dc_target = 0
     
     # --- Data Pre-processing ---
-    def capture_telemetry(self, mode_override): # [!] Place in first of the main loop, Handle non Heating Mode
+    def capture_telemetry(self, mode_override = False): # [!] Place in first of the main loop, Handle non Heating Mode
         """Standardizes data acquisition and prevents memory leaks"""
         try:
             try: # Read Hardware Data
                 self.current_temp = self.furnace.get_pv()
                 self.current_power = self.furnace.get_power_percent()
                 if not mode_override: # Load Current Status if no mode_override
-                    self.ptn, self.step, self.sec_rem = self.furnace.get_execution_status()
+                    self.ptn, self.step, self.min_rem = self.furnace.get_execution_status()
             except Exception as e: # Update status only if the hardware responds
                 print(f"\n[!] Hardware Read Failed - Retaining last known state: {e}")
             
@@ -707,7 +731,7 @@ class PIDProgramManager:
                 try:
                     self.coil_temp = self.predictor.get_predicted_temperature(self.power_history)
                 except Exception as e:
-                    print(f"Predictor Model Error: {e}")
+                    print(f"\nPredictor Model Error: {e}")
             else:
                 self.coil_temp = None # Irrelevant in non RAMP Mode [!] Beware of Type Error
 
@@ -717,7 +741,7 @@ class PIDProgramManager:
             self.rate_history.append(self.current_rate)
             self.power_history.append(self.current_power)
             self.data["pid"].append((self.kp, self.ki, self.kd)) # Only update after initialization and Auto-Tune, append(tuple) for inner ()
-            self.data["status"].append((self.current_status, self.sv, self.current_mode, self.next_temp, self.ptn, self.step, self.sec_rem, self.coil_temp)) # append(tuple) for inner ()
+            self.data["status"].append((self.current_status, getattr(self, 'sv', ""), self.current_mode, self.next_temp, self.ptn, self.step, self.min_rem, self.coil_temp)) # append(tuple) for inner ()
             return True # Return Boolean
 
         except Exception as e: # Skip Logging for ANY Failure
@@ -743,7 +767,7 @@ class PIDProgramManager:
             if is_stable:
                 self.cooling_manager() # Natural entry
                 if self.in_cooling_mode: # Repeat Entry Message
-                    print(f"--- TEMPERATURE STABILIZE AT {self.current_temp}°C | ENTER NEXT COOLING CYCLE: {self.dc_initial:.1f}% -> {self.dc_target:.1f}% ---")
+                    print(f"\n--- TEMPERATURE STABILIZE AT {self.current_temp}°C | ENTER NEXT COOLING CYCLE: {self.dc_initial:.1f}% -> {self.dc_target:.1f}% ---")
                 # Tag for checks
                 self.in_cooling_mode = True
                 self.check_cool, self.confirm_cool = False, False
@@ -752,7 +776,7 @@ class PIDProgramManager:
         if self.in_cooling_mode:
             self.cooling() # Reduce Duty Cycle Gradually
             if self.enter_cool: # First Entry Message
-                print(f"--- COOLING Mode ENABLED: {self.current_temp}°C ---")
+                print(f"\n--- COOLING Mode ENABLED: {self.current_temp}°C ---")
                 self.enter_cool = False # Disable tag
             return # Early Exit
         
@@ -771,7 +795,7 @@ class PIDProgramManager:
         
         # Transition Check
         if self.current_mode != self.prev_mode:
-            print(f"Entering {self.current_mode} Mode: Pattern {self.ptn} Step {self.step}: Target Temperature {self.next_temp}°C, Duration {self.inital_duration_min}min")
+            print(f"\nEntering {self.current_mode} Mode: Pattern {self.ptn} Step {self.step}: Target Temperature {self.next_temp}°C, Duration {self.inital_duration_min}min")
             
             # Sync coil for next RAMP
             if self.current_mode == "RAMP":
@@ -782,21 +806,23 @@ class PIDProgramManager:
         
         # Exclusive Check
         # RAMP Check
+        '''
         if self.current_mode == "RAMP":
             # Run the Heating Coil/Thermocouple Thermal Gradient Check
             if self.coil_temp > (self.current_temp + self.cfg.coil_safety_margin): # Only Dissect Ramp when Thermal Gradient Threshold Exceed
                 print(f"\n[SOAK] Mode Triggered: Predicted Coil {self.coil_temp:.1f}°C > Thermocouple {self.current_temp:.1f}°C + {self.cfg.coil_safety_margin}")
                 self.path_find()
             return # Early exit
-        
+        '''
+
         # SOAK Check
-        elif self.current_mode == "SOAK":
+        if self.current_mode == "SOAK":
             # Run the Stability Check
-            if self.sec_rem <= self.cfg.stability_window_s: # Check Stability before it END by SystemConfig of Attempt
+            if self.min_rem <= self.cfg.stability_window_s: # Check Stability before it END by SystemConfig of Attempt
                 is_stable, current_std = self.check_stability()
                 if not is_stable: # Only extend when Stability Check Failed
                     print(f"\nStability Requirement Failed σ = {current_std:.3f} < {self.cfg.stability_std_dev:.2f} (S.D. Threshold) | Extending SOAK Mode by {self.cfg.soak_extension_s}s...")
-                    self.furnace.safe_write(self.furnace.TIME_REMAIN_SEC, self.sec_rem + self.cfg.soak_extension_s) # Extend Current Step Time (Address 1032H)
+                    self.furnace.safe_write(self.furnace.TIME_REMAIN_MIN, self.min_rem + self.cfg.soak_extension_s) # Extend Current Step Time (Address 1032H)
                     # Update dictionary
                     self.program[self.ptn]["steps"][self.step] = (self.current_temp, self.inital_duration_min + (self.cfg.soak_extension_s/60))
             return # Early exit
@@ -855,8 +881,8 @@ class PIDProgramManager:
             # Resume not allowed: Set Temperature
             if abs(self.current_temp - next_temp) >= self.cfg.auto_tune_safety: # >= Safety Limit from SystemConfig
                 print(f"\n[!] SAFETY ERROR: Resuming Temperature ({next_temp}°C) is too far from Current Temperature ({self.current_temp:.1f}°C).")
-                print(f"Toggle off COOLING Required Resuming Temperature within {self.cfg.auto_tune_safety}°C for safety.")
-                print(f"[TRANSITION] COOLING Stopped. Start Maintaining Current Temperature {self.current_temp:.1f}°C.")
+                print(f"\nToggle off COOLING Required Resuming Temperature within {self.cfg.auto_tune_safety}°C for safety.")
+                print(f"\n[TRANSITION] COOLING Stopped. Start Maintaining Current Temperature {self.current_temp:.1f}°C.")
                 print("Recommend resume HEATING through MENU/(2) Load/(A) Full Override.")
                 self.sv = self.current_temp
                 self.furnace.safe_write(self.furnace.SV, int(self.sv * 10)) # Set current temperature until stable before cooling
@@ -865,7 +891,7 @@ class PIDProgramManager:
             # Resume allowed
             else: # < Safety Limit from SystemConfig
                 self.furnace.safe_write(self.furnace.CTRL_METHOD, self.ctrl_method) # Switch from Manual Control Mode(2) to Original Control Mode (Address 1005H)
-                print(f"[RESUME] Cooling cancelled. Returning to Last {msg}")
+                print(f"\n[RESUME] Cooling cancelled. Returning to Last {msg}")
             
             # Universal Resume Setting
             self.predictor.reset(self.current_temp) # Reset HeatingCoilModel as Heating Coil Temperature should be < Current Temperature
@@ -905,7 +931,7 @@ class PIDProgramManager:
         self.furnace.safe_write(self.furnace.SV, int(self.current_temp * 10)) # Force setpoint to current temperature
         if not self.in_operation_mode or self.current_mode != "SOAK": # Switch to Control Method 0 (PID Mode)
             self.furnace.safe_write(self.furnace.CTRL_METHOD, 0) # PID Mode (Address 1005H = 0)
-        print(f"[STABILIZING] Setting to {self.current_temp}°C before cooling...") # Interrupt SOAK and OPERATING Mode to Current Temperature
+        print(f"\n[STABILIZING] Setting to {self.current_temp}°C before cooling...") # Interrupt SOAK and OPERATING Mode to Current Temperature
         self.check_cool, self.enter_cool = True, True # Tag a Cooling Logic Check for monitor_execution
     
     # --- Builder Command ---
@@ -933,7 +959,7 @@ class PIDProgramManager:
             return self.program # Stop the code below
         
         # Dissect RAMP to Old: RAMP and New: SOAK RAMP [(°C, min)] Tuple in List
-        orig_ramp = (self.current_temp, self.calculate_runtime_min(self.inital_duration_min, self.sec_rem))
+        orig_ramp = (self.current_temp, self.calculate_runtime_min(self.inital_duration_min, self.min_rem))
         soak_step = (self.current_temp, self.cfg.soak_time_min) # SystemConfig initial [SOAK] time
         next_ramp = (self.next_temp, self.calculate_duration_min(self.target, self.current_temp)) 
         
@@ -990,13 +1016,13 @@ class PIDProgramManager:
         """Handles 'Skip' logic for both Program Mode and Auto-Tune Mode. Ignore in OPERATING and COOLING Mode"""
         if self.tuning_state: # Skip Auto-Tune and return back to Control Mode(3): PID Program
             self.furnace.safe_write(self.furnace.AUTO_TUNE, 0) # Stop the AT process (Write 0 to 0813H)
-            time.sleep(0.5) # Wait for hardware
+            time.sleep(0.2) # Wait for hardware
             self.at_complete()
-            print(f"[ABORT] Cancelling Auto-Tune. Recovering partial PID: Kp {self.kp}, Ki {self.ki}, Kd {self.kd} | Resuming {self.current_mode} Mode: Pattern {self.ptn} Step {self.step}: Target Temperature {self.next_temp}°C, Duration {self.inital_duration_min}min")
+            print(f"\n[ABORT] Cancelling Auto-Tune. Recovering partial PID: Kp {self.kp}, Ki {self.ki}, Kd {self.kd} | Resuming {self.current_mode} Mode: Pattern {self.ptn} Step {self.step}: Target Temperature {self.next_temp}°C, Duration {self.inital_duration_min}min")
         else: # Skip current Step
             if self.ctrl_method == 3: # Only allow skip Step in PID Program Control Mode (Address 1005H = 3)
                 self.furnace.skip_step()
-                print(f"Skipping {self.current_mode} Mode: Pattern {self.ptn} Step {self.step}: Target Temperature {self.next_temp}°C, Duration {self.inital_duration_min}min")
+                print(f"\nSkipping {self.current_mode} Mode: Pattern {self.ptn} Step {self.step}: Target Temperature {self.next_temp}°C, Duration {self.inital_duration_min}min")
     
     def at_complete(self): # Transit from Auto-Tune and switch to Control Method 3 (PID Program Control)
         self.furnace.safe_write(self.furnace.CTRL_METHOD, self.ctrl_method) # Switch back to Original Control Mode (Address 1005H)
@@ -1023,9 +1049,9 @@ class PIDProgramManager:
         self.furnace.safe_write(self.furnace.OUT1_VOL, 0) # Set Duty Cycle 0% (Address 1012H)
     
     def operation_mode(self):
-        print(f"--- Operation Mode ENABLED: {self.current_temp}°C ---")
+        print(f"\n--- Operation Mode ENABLED: {self.current_temp}°C ---")
         # Save last Mode actual duration
-        self.program[self.ptn]["steps"][self.step] = (self.current_temp, self.calculate_runtime_min(self.inital_duration_min, self.sec_rem)) # Set Runtime of last Mode reaching Target Temperature (Tuple is immutable)
+        self.program[self.ptn]["steps"][self.step] = (self.current_temp, self.calculate_runtime_min(self.inital_duration_min, self.min_rem)) # Set Runtime of last Mode reaching Target Temperature (Tuple is immutable)
         # Set target temperature setpoint and switch to Control Method 0 (PID Mode)
         self.ctrl_method = 0 # Save Current Control Method 0 (PID Mode)
         self.furnace.safe_write(self.furnace.SV, int(self.target * 10))
@@ -1116,7 +1142,7 @@ class PIDProgramManager:
         [2]
         [3]
         """
-        print(f"--- Safe Injection: Inserting at Pattern {target_ptn} Step {target_step} ---")
+        print(f"\n--- Safe Injection: Inserting at Pattern {target_ptn} Step {target_step} ---")
 
         # Save tail [] |* []*, selected Pattern after the injection point of the selected Pattern
         tail_steps = self.program[target_ptn]["steps"][target_step + 1:]
@@ -1236,7 +1262,7 @@ class PIDProgramManager:
                     updated_steps += self.program[idx]["steps"]
                     updated_modes += self.program[idx]["mode"]
 
-        print(f"Injection complete. Handled cascade up to Pattern {idx}")
+        print(f"\nInjection complete. Handled cascade up to Pattern {idx}")
 
     def distribute_load(self, start_ptn, flat_steps, final_link=8):
         """Distributes raw PID Program (list of tuples: [(temp, mins), (temp, mins), ...]) across Pattern 0 ~ 7 starting at Pattern Index"""
@@ -1286,6 +1312,10 @@ class PIDProgramManager:
         self.start_time = self.initiation_time + self.cfg.calibration_window_number * self.cfg.sample_time_s # Predict start_time before run to return negative value data
         self.kp, self.ki, self.kd = self.furnace.get_pid_values() # Initialize PID Variable
         for i in range(self.cfg.calibration_window_number):
+            target_tick_time = self.initiation_time + (i * self.cfg.sample_time_s)
+            while time.time() < target_tick_time:
+                time.sleep(0.001)
+
             self.capture_telemetry("CALIBRATION")
             self.save_to_csv(writer, f) # Log to CSV
             
@@ -1299,7 +1329,6 @@ class PIDProgramManager:
                 f"Temp: {self.current_temp:.1f}°C | "
                 f"Noise Ceiling: {self.temp_noise:.2f}°C, {self.rate_noise:.2f}°C/min"
             )
-            time.sleep(self.cfg.sample_time_s)
         
         # Initialization
         self.start_time = time.time() # Set Start time for actual run
@@ -1307,13 +1336,14 @@ class PIDProgramManager:
         self.furnace.safe_write(self.furnace.HYS1, int(self.hysteresis * 10)) # Address (1010H): Round to 0.1°C
         self.noise_ceiling = self.rate_noise * self.cfg.rate_snr # SystemConfig Multiplier for Statistical Significance
         print(f"\n[READY] Noise Ceiling locked at: {self.temp_noise:.2f}°C, {self.rate_noise:.2f}°C/min | "
-              f"Set: Hysteresis {self.hysteresis:.2f}°C, Noise Ceiling: {self.noise_ceiling}")
+              f"\nSet: Hysteresis {self.hysteresis:.2f}°C, Noise Ceiling: {self.noise_ceiling}")
         
         # Loading Setup
         self.program = self.generate_initial_program(self.target, self.current_temp) # Initialize PID Program
         self.furnace.load_recipe(self.program)  # Load initial PID Program
         self.furnace.safe_write(furnace.START_PATTERN, 0) # Start at Pattern 0 Step 0
         self.furnace.run() # Start run and proceed to main loop
+        print(self.furnace.read_register(0x103F,1))
         self.predictor.reset(self.current_temp) # Reset Heating Coil Model
         print(f"\n[RUN] Hardware Started. Entering Main Loop... | Current Temperature {self.current_temp}°C.")
     
@@ -1325,7 +1355,7 @@ class PIDProgramManager:
         # Create csv file
         with open("furnace_log.csv", "w", newline="") as f:
             writer = csv.writer(f)
-            writer.writerow(["Time(s)", "Temp(°C)", "Rate(°C/min)", "P", "I", "D", "Power(%)", "Current Status", "Set Temperature(°C)", "Current Mode", "Next Temperature Target(°C)", "Pattern index", "Step index", "Remained Time(s)", "Predicted Heating Coil Temperature(°C)"])
+            writer.writerow(["Time(s)", "Temp(°C)", "Rate(°C/min)", "P", "I", "D", "Power(%)", "Current Status", "Set Temperature(°C)", "Current Mode", "Next Temperature Target(°C)", "Pattern index", "Step index", "Remained Time(min)", "Predicted Heating Coil Temperature(°C)"])
             
             # Initialize dashboard for live display
             with tqdm(total=0, bar_format='{desc}', mininterval=0) as pbar: # total=0 disable % bar, bar_format='{desc}' only show text, mininterval=0 update instantly
@@ -1336,7 +1366,6 @@ class PIDProgramManager:
                     try: # Order: Data -> Status -> Action
                         if not self.capture_telemetry():
                             continue # Skip if capture_telemetry failed
-                        
                         # Live Display
                         dashboard = (
                             f"Time={self.current_time:.0f}s | "
@@ -1344,16 +1373,15 @@ class PIDProgramManager:
                             f"Rate={self.current_rate:.2f} °C/min | "
                             f"Power={self.current_power}% | "
                             f"P={self.kp}, I={self.ki}, D={self.kd} | "
-                            f"Status={self.current_status} | SV={self.sv:.1f} | "
+                            f"Status={self.current_status()} | SV={self.sv:.1f} | "
                             f"Mode={self.current_mode} T_Target={self.next_temp:.1f}°C | "
-                            f"Pattern={self.ptn} Step={self.step} Time Remained={self.sec_rem:.1f}s | "
+                            f"Pattern={self.ptn} Step={self.step} Time Remained={self.min_rem:.1f}min | "
                             f"T_Coil={f'{self.coil_temp:.1f}°C' if self.coil_temp is not None else 'N/A'} "
                         )
                         pbar.set_description_str(dashboard)
 
                         # Manual Menu (Non-blocking)
-                        if not self.handle_manual_control(pbar):
-                            break # User chose EXIT (Option 4)
+                        self.handle_manual_control(pbar)
                         
                         # Decision Logic
                         self.monitor_execution()
@@ -1363,7 +1391,6 @@ class PIDProgramManager:
                         
                         # Update Visualization (Optional)
                         self.update_plot()
-                        
                         time.sleep(self.cfg.sample_time_s)
                     
                     except KeyboardInterrupt: # Trigger by Ctrl+C
@@ -1374,19 +1401,19 @@ class PIDProgramManager:
     # --- Menu Code ---
     def handle_manual_control(self, pbar): # Order: Nested to Top level
         """Non-blocking menu: Keys 1-5 only work after pressing 'M'."""
-        if not msvcrt.kbhit(): return # Exit when no key pressed
-        while msvcrt.kbhit(): # Empty the keyboard buffer completely every cycle
-            key = msvcrt.getch().decode().lower() # Clear the key that triggered this
+        if not kbhit(): pass # Exit when no key pressed
+        else: # Empty the keyboard buffer completely every cycle
+            key = getch() # Clear the key that triggered this
             
             # 3rd Level: Typing Data (Non-blocking Input)
             if self.input_active:
                 self.process_typing(key, pbar)
-                return 
+                return True
 
             # 2nd Level: Sub-Menu
             if self.menu_level == 'LOAD_FORK':
                 self.process_load_fork(key, pbar)
-                return 
+                return True
 
             # 1st Level: Main Menu
             if self.in_menu:
@@ -1574,10 +1601,10 @@ class PIDProgramManager:
             # --- Execution ---
             # Ensure the controller is in PID mode (1005H = 0) in order for Auto Tune Process to run
             self.furnace.safe_write(self.furnace.CTRL_METHOD, 0)
-            time.sleep(0.5)
+            time.sleep(0.2)
             # Set Manual Setpoint (1001H)
             self.furnace.safe_write(self.furnace.SV, int(temp * 10))
-            time.sleep(0.5)
+            time.sleep(0.2)
             # Start Auto Tune Process and Wait until it done
             self.furnace.start_auto_tune()
             pbar.write(f"[ACTION] Auto-Tune started at {temp}°C")
@@ -1593,7 +1620,7 @@ class PIDProgramManager:
     def update_plot(self):
         """Live Plot of Temperature vs Time"""
         current_time = time.time()
-        if current_time - self.last_plot_update < 5.0: # Only update every 5 seconds to prevent lag
+        if current_time - self.last_plot_update < 60.0: # Only update every 60 seconds to prevent lag
             return
         self.line.set_data(self.time_history, self.temp_history)
         self.ax.relim()
@@ -1612,13 +1639,13 @@ class PIDProgramManager:
             self.ki,
             self.kd,
             self.current_status,
-            self.sv,
+            getattr(self, 'sv', ""),
             self.current_mode,
-            self.next_temp if self.next_temp is not None else "", # Does not autocorrect from path finding logic
-            self.ptn if self.ptn is not None else "",
-            self.step if self.step is not None else "",
-            self.sec_rem if self.sec_rem is not None else "",
-            f"{self.coil_temp:.1f}" if self.coil_temp is not None else "" # Coil temp: Blank if not in RAMP
+            getattr(self, 'next_temp', ""), # Does not autocorrect from path finding logic
+            getattr(self, 'ptn', ""),
+            getattr(self, 'step', ""),
+            getattr(self, 'min_rem', ""),
+            getattr(self, 'coil_temp', "") # Coil temp: Blank if not in RAMP
         ])
         f.flush()
     
@@ -1633,9 +1660,9 @@ class PIDProgramManager:
             with open(filepath, 'w') as f:
                 # indent=4 makes the file easy for you to read in Notepad
                 json.dump(recipe, f, indent=4)
-            print(f"Success: Ramp history saved to {filepath}")
+            print(f"\nSuccess: Ramp history saved to {filepath}")
         except Exception as e:
-            print(f"Error saving recipe: {e}")
+            print(f"\nError saving recipe: {e}")
 
 # Initialization
 if __name__ == "__main__":
