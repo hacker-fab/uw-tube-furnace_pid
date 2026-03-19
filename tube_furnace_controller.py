@@ -53,7 +53,7 @@ class SystemConfig:
     log_history_s: float = 300.0        # Log time in s to prevent Memory Leak
     
     # Physics & Hardware Limits
-    voltage: float = 140.0              # Variac 120/140V
+    voltage: float = 120.0              # Variac 120/140V
     temp_limit_low: float = 0.0         # Lower Temperature Limit: 0°C
     temp_limit_high: float = 1150.0     # Upper Temperature Limit: 1150°C
     safety_limit: float = 1120.0        # Force Shutdown Temperature: 1120°C
@@ -94,9 +94,9 @@ class SystemConfig:
         """Total list size for the log history."""
         return max(1, math.ceil(self.relay_period_s/self.sample_time_s), math.ceil(self.log_history_s/self.sample_time_s)) # Minimum Relay Cycle Frame or 1
     @property
-    def stability_window_number(self) -> float:
+    def stability_window_number(self) -> int:
         """Sample Size for Stability Check"""
-        return self.stability_multiplier * self.relay_memory_size
+        return int(self.stability_multiplier * self.relay_memory_size)
     @property
     def stability_window_s(self) -> float:
         """Calculates time window based on multiplier."""
@@ -188,6 +188,7 @@ class DeltaDTB: #Hold SET Button, click cycle until seeing Co5H, turn it on to e
     def _write_register(self, address, value):
         """Sends Function 06 (Write) and verifies the Echo for success/failure."""
         addr_hex = f"{address:04X}"
+        value = int(value)
         val_hex = f"{value:04X}"
         payload = f"{self.slave_id:02X}06{addr_hex}{val_hex}"
         cmd = f":{payload}{self._calculate_lrc(payload)}\r\n".encode('ascii')
@@ -601,6 +602,17 @@ class PIDProgramManager:
         self.predictor = predictor
         self.target = target_temp # Set Target Temperature and Class handle all logic automatically
         
+        self.sv = 0
+        self.current_mode = None
+        # issue for display dont do it and look up
+        self.next_temp = 0
+        self.ptn = 0
+        self.step = 0
+        self.min_rem = 0
+        self.coil_temp = 0
+        self.dc_step_number = 100 # order issue it crash because not declare properly
+        self.c = 0
+
         # Initial Program State
         self.prev_mode = "STARTUP"
         self.lag_log = []
@@ -697,7 +709,7 @@ class PIDProgramManager:
         """Calculates the Duty Cycle Start and Endpoint in COOLING Cycle"""
         if window is None:
             window = self.cfg.stability_window_number # Default Sampling Number Stability Check from SystemConfig if no input
-        self.dc_initial = np.mean(self.power_history[-window:]) # Pull average Power (%) for latest input window number
+        self.dc_initial = np.mean(list(self.power_history)[-window:]) # Pull average Power (%) for latest input window number (convert to list from deque for np.mean)
         input_temp = None if self.is_ramp_active else self.current_temp # Handle RAMP Mode Logic
         #self.dc_target = self.predictor.calculate_power_drop(self.dc_initial, input_temp) # Predict endpoint of current Cooling Cycle automatically
         self.dc_target = 0
@@ -877,6 +889,7 @@ class PIDProgramManager:
                 next_temp = self.next_temp
                 msg = f"PID Program Control Mode(3): {self.current_mode} Mode: Pattern {self.ptn} Step {self.step}: Target Temperature {next_temp}°C, Duration {self.inital_duration_min}min"
             
+            '''
             # Resume Logic
             # Resume not allowed: Set Temperature
             if abs(self.current_temp - next_temp) >= self.cfg.auto_tune_safety: # >= Safety Limit from SystemConfig
@@ -892,7 +905,7 @@ class PIDProgramManager:
             else: # < Safety Limit from SystemConfig
                 self.furnace.safe_write(self.furnace.CTRL_METHOD, self.ctrl_method) # Switch from Manual Control Mode(2) to Original Control Mode (Address 1005H)
                 print(f"\n[RESUME] Cooling cancelled. Returning to Last {msg}")
-            
+            '''
             # Universal Resume Setting
             self.predictor.reset(self.current_temp) # Reset HeatingCoilModel as Heating Coil Temperature should be < Current Temperature
             self.in_cooling_mode, self.check_cool = False, False # Disable Tag
@@ -928,6 +941,7 @@ class PIDProgramManager:
         
         # Queue Logic for HEATING and OPERATING Mode
         print("--- COOLING Mode QUEUED: Check Stability before PROCEED ---")
+        self.furnace.safe_write(self.furnace.CTRL_METHOD, 0) # Switch to PID Mode before set value
         self.furnace.safe_write(self.furnace.SV, int(self.current_temp * 10)) # Force setpoint to current temperature
         if not self.in_operation_mode or self.current_mode != "SOAK": # Switch to Control Method 0 (PID Mode)
             self.furnace.safe_write(self.furnace.CTRL_METHOD, 0) # PID Mode (Address 1005H = 0)
@@ -996,6 +1010,7 @@ class PIDProgramManager:
     
     def setup_cooling_task(self): # Called every Cooling Cycle start 
         """Generates the power decay profile"""
+        self.furnace.safe_write(self.furnace.CTRL_METHOD, 2) # Change mode before change duty cycle
         # Reset Cooling task
         self.cooling_task = []
         # Calculate the power drop per step
@@ -1028,13 +1043,13 @@ class PIDProgramManager:
         self.furnace.safe_write(self.furnace.CTRL_METHOD, self.ctrl_method) # Switch back to Original Control Mode (Address 1005H)
         self.predictor.reset(self.current_temp) # Reset HeatingCoilModel from finishing SOAK Mode during Auto-Tune
         self.kp, self.ki, self.kd = self.furnace.get_pid_values() # Update PID Variable after Auto-Tune
-    
+    # need rework, add if slew rate too low and decrease gradually, check slew rate mechanism rethink
     def cooling(self): # Switch to Control Method 2 (Manual Mode) and Set Duty Cycle to 0% gradually
         """Processes the Cooling task and Set to hardware"""
         if self.cooling_task:
             # Pop the next power level (0.1% units)
             dc_action = self.cooling_task.pop(0)
-            self.furnace.safe_write(self.OUT1_VOL, dc_action) # Set Power to Current Cooling Task (Address 1012H)
+            self.furnace.safe_write(self.furnace.OUT1_VOL, dc_action) # Set Power to Current Cooling Task (Address 1012H)
             return # Early Exit until clear all Cooling Task
         
         # Tag for Stability Check when done
@@ -1420,8 +1435,14 @@ class PIDProgramManager:
                 self.process_main_commands(key, pbar)
             
             # Idle
-            elif key == 'm':
-                self.enter_main_menu(pbar)
+            elif key == 'm': # Bandage for broken maneul
+                if not self.c == 3: # 3 times for queue, skip queue, confirm cool
+                    self.toggle_cooling()
+                    self.c += 1
+                    #self.enter_main_menu(pbar)
+
+            elif key == 's':
+                self.skip_action()
         
     def enter_main_menu(self, pbar): # Idle
         self.in_menu = True
