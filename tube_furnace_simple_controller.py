@@ -8,6 +8,8 @@ previous_temp = 0
 loop_delay = 3 #in seconds
 current_control_method = 0
 moderating_slew = False
+slew_safety_margin = 0.75
+slew_release_margin = 0.70
 
 def set_target(furnace, target):
     furnace.safe_write(furnace.SV, int(target*10))
@@ -33,27 +35,29 @@ def calc_slew(prev_temp, curr_temp, timestep):
 def moderate_slew(furnace, cfg, slew, current_temp, target_temp):
     global current_control_method, moderating_slew
     if (current_temp < target_temp): #we are heating
-        if (abs(slew) > cfg.max_allowed_rate): #kill the heating output
+        if (abs(slew) > (cfg.max_allowed_rate*slew_safety_margin)): #kill the heating output
             if not moderating_slew:
                 print("max heating rate approaching, kill output")
                 set_ctrl_method(furnace, 2) #switch to manual PID mode (so we can override the output duty)
                 furnace.safe_write(furnace.OUT1_VOL, 0)
                 moderating_slew = True
         else: #return control back to normal
-            if (current_control_method != 0):
-                set_ctrl_method(furnace, 0)
-            moderating_slew = False
+            if (abs(slew) < (cfg.max_allowed_rate*slew_release_margin)):
+                if (current_control_method != 0):
+                    set_ctrl_method(furnace, 0)
+                moderating_slew = False
     elif (current_temp > target_temp): #we are cooling
-        if (abs(slew) > cfg.max_allowed_rate): #turn on the heating output @50% duty
+        if (abs(slew) > (cfg.max_allowed_rate*slew_safety_margin)): #turn on the heating output @50% duty
             if not moderating_slew:
                 print("max cooling rate approaching, heating at 50% duty")
                 set_ctrl_method(furnace, 2) #switch to manual PID mode (so we can override the output duty)
                 furnace.safe_write(furnace.OUT1_VOL, 50) #TODO maybe ramp duty iteratively until it stabilizes
                 moderating_slew = True
         else: #return control back to normal
-            if (current_control_method != 0):
-                set_ctrl_method(furnace, 0)
-            moderating_slew = False
+            if (abs(slew) < (cfg.max_allowed_rate*slew_release_margin)):
+                if (current_control_method != 0):
+                    set_ctrl_method(furnace, 0)
+                moderating_slew = False
 
 def main_loop(furnace, cfg):
     global previous_temp, loop_delay
