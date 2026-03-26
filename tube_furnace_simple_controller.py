@@ -30,7 +30,8 @@ def setup(furnace, cfg, target):
     previous_temp = furnace.get_pv()
 
 def calc_slew(prev_temp, curr_temp, timestep):
-    return (curr_temp-prev_temp)/timestep
+    slew = ((curr_temp-prev_temp)/timestep)*60 #want to measure in deg C/min
+    return round(slew, 2)
 
 def moderate_slew(furnace, cfg, slew, current_temp, target_temp):
     global current_control_method, moderating_slew
@@ -51,7 +52,7 @@ def moderate_slew(furnace, cfg, slew, current_temp, target_temp):
             if not moderating_slew:
                 print("max cooling rate approaching, heating at 50% duty")
                 set_ctrl_method(furnace, 2) #switch to manual PID mode (so we can override the output duty)
-                furnace.safe_write(furnace.OUT1_VOL, 50) #TODO maybe ramp duty iteratively until it stabilizes
+                furnace.safe_write(furnace.OUT1_VOL, 500) #TODO maybe ramp duty iteratively until it stabilizes
                 moderating_slew = True
         else: #return control back to normal
             if (abs(slew) < (cfg.max_allowed_rate*slew_release_margin)) and moderating_slew:

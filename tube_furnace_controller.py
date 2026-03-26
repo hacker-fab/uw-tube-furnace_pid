@@ -197,7 +197,7 @@ class DeltaDTB: #Hold SET Button, click cycle until seeing Co5H, turn it on to e
         cmd = f":{payload}{self._calculate_lrc(payload)}\r\n".encode('ascii')
         self.ser.write(cmd)
         #time.sleep(0.1) # Wait for controller
-        resp = self.ser.read(100)
+        resp = self.ser.readline()
 
         # Fallout Debug Logic
         if not resp:
@@ -234,8 +234,8 @@ class DeltaDTB: #Hold SET Button, click cycle until seeing Co5H, turn it on to e
             payload = f"{self.slave_id:02X}03{addr_hex}{count_hex}"
             cmd = f":{payload}{self._calculate_lrc(payload)}\r\n".encode('ascii')
             self.ser.write(cmd)
-            time.sleep(0.1)
-            resp = self.ser.read(100)
+            time.sleep(0.01)
+            resp = self.ser.readline()
 
             if not resp:
                 print(f"\nERROR: Read timeout at {hex(start_address)}")
@@ -523,7 +523,7 @@ class DeltaDTB: #Hold SET Button, click cycle until seeing Co5H, turn it on to e
         print("Cleaning PID memory...")
         if not self.stop(): # Prevent Program Running while clearing memory
             print("Warning: Could not verify Stop command before wipe. Proceeding with wipe...")
-        time.sleep(0.5) # Wait for hardware
+        time.sleep(0.01) # Wait for hardware
 
         # Helper to write blocks accurately
         def write_block(base_addr, values):
