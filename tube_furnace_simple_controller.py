@@ -42,7 +42,7 @@ def moderate_slew(furnace, cfg, slew, current_temp, target_temp):
                 furnace.safe_write(furnace.OUT1_VOL, 0)
                 moderating_slew = True
         else: #return control back to normal
-            if (abs(slew) < (cfg.max_allowed_rate*slew_release_margin)):
+            if (abs(slew) < (cfg.max_allowed_rate*slew_release_margin)) and moderating_slew:
                 if (current_control_method != 0):
                     set_ctrl_method(furnace, cfg.ctrl_method)
                 moderating_slew = False
@@ -54,7 +54,7 @@ def moderate_slew(furnace, cfg, slew, current_temp, target_temp):
                 furnace.safe_write(furnace.OUT1_VOL, 50) #TODO maybe ramp duty iteratively until it stabilizes
                 moderating_slew = True
         else: #return control back to normal
-            if (abs(slew) < (cfg.max_allowed_rate*slew_release_margin)):
+            if (abs(slew) < (cfg.max_allowed_rate*slew_release_margin)) and moderating_slew:
                 if (current_control_method != 0):
                     set_ctrl_method(furnace, cfg.ctrl_method)
                 moderating_slew = False
@@ -97,7 +97,10 @@ if __name__ == "__main__":
     cfg = SystemConfig(port=args.port, voltage=120, ctrl_method=ctrl_method)
 
     furnace = DeltaDTB(cfg)
-    furnace.stop()
+    if not furnace.stop():
+        print("failed to communicate with furnace")
+        furnace.ser.close()
+        exit()
 
     #just initialize and exit
     if args.initialize:
