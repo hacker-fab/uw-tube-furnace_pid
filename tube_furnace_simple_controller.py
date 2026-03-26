@@ -8,8 +8,12 @@ previous_temp = 0
 loop_delay = 3 #in seconds
 current_control_method = 0
 moderating_slew = False
+slow_heating = False
+slow_cooling = False
 slew_safety_margin = 0.75
-slew_release_margin = 0.70
+slew_release_margin = 0.65
+cooling_safety_margin = 0.60
+cooling_release_margin = 0.50
 
 def set_target(furnace, target):
     furnace.safe_write(furnace.SV, int(target*10))
@@ -34,38 +38,44 @@ def calc_slew(prev_temp, curr_temp, timestep):
     return round(slew, 2)
 
 def moderate_slew(furnace, cfg, slew, current_temp, target_temp):
-    global current_control_method, moderating_slew
-    if (current_temp < target_temp): #we are heating
-        if (abs(slew) > (cfg.max_allowed_rate*slew_safety_margin)): #kill the heating output
-            if not moderating_slew:
+    global current_control_method, slow_heating, slow_cooling, moderating_slew
+    if ((slew > 0) or slow_heating and not slow_cooling): #we are heating
+        if (slew > (cfg.max_allowed_rate*slew_safety_margin)): #kill the heating output
+            if not slow_heating:
                 print("max heating rate approaching, kill output")
-                set_ctrl_method(furnace, 2) #switch to manual PID mode (so we can override the output duty)
-                furnace.safe_write(furnace.OUT1_VOL, 0)
-                moderating_slew = True
+                # set_ctrl_method(furnace, 2) #switch to manual PID mode (so we can override the output duty)
+                # furnace.run()
+                # furnace.safe_write(furnace.OUT1_VOL, 0)
+                furnace.stop()
+                slow_heating = True
         else: #return control back to normal
-            if (abs(slew) < (cfg.max_allowed_rate*slew_release_margin)) and moderating_slew:
-                if (current_control_method != 0):
-                    set_ctrl_method(furnace, cfg.ctrl_method)
-                moderating_slew = False
-    elif (current_temp > target_temp): #we are cooling
+            if (slew < (cfg.max_allowed_rate*slew_release_margin)) and slow_heating:
+                # if (current_control_method != 0):
+                #     set_ctrl_method(furnace, cfg.ctrl_method)
+                furnace.run()
+                slow_heating = False
+    elif ((slew <= 0) or slow_cooling): #we are cooling
         if (abs(slew) > (cfg.max_allowed_rate*slew_safety_margin)): #turn on the heating output @50% duty
-            if not moderating_slew:
-                print("max cooling rate approaching, heating at 50% duty")
-                set_ctrl_method(furnace, 2) #switch to manual PID mode (so we can override the output duty)
-                furnace.safe_write(furnace.OUT1_VOL, 500) #TODO maybe ramp duty iteratively until it stabilizes
-                moderating_slew = True
+            if not slow_cooling:
+                print("max cooling rate approaching, heating at 100% duty")
+                # set_ctrl_method(furnace, 2) #switch to manual PID mode (so we can override the output duty)
+                set_target(furnace, current_temp + 50)
+                # furnace.safe_write(furnace.OUT1_VOL, 1000) #TODO maybe ramp duty iteratively until it stabilizes
+                slow_cooling = True
         else: #return control back to normal
-            if (abs(slew) < (cfg.max_allowed_rate*slew_release_margin)) and moderating_slew:
-                if (current_control_method != 0):
-                    set_ctrl_method(furnace, cfg.ctrl_method)
-                moderating_slew = False
+            if (abs(slew) > (cfg.max_allowed_rate*cooling_release_margin)) and slow_cooling:
+                # if (current_control_method != 0):
+                #     set_ctrl_method(furnace, cfg.ctrl_method)
+                set_target(furnace, target_temp)
+                slow_cooling = False
 
 def main_loop(furnace, cfg):
     global previous_temp, loop_delay
+    target_temp = furnace.get_sv()
     try:
         while True:
             current_temp = furnace.get_pv()
-            target_temp = furnace.get_sv()
+            # target_temp = furnace.get_sv()
             current_duty = furnace.get_power_percent()
             slew = calc_slew(previous_temp, current_temp, loop_delay)
             print(f"temp: {current_temp}, slew rate: {slew} target: {target_temp}, duty: {current_duty}")
@@ -102,6 +112,16 @@ if __name__ == "__main__":
         print("failed to communicate with furnace")
         furnace.ser.close()
         exit()
+
+    #TMP hack override the P value
+    furnace.safe_write(furnace.PID_P, 100)
+    furnace.safe_write(furnace.PID_I, 150)
+    #TMP HACK read out the PID values on the fly
+    P_val = furnace.parse_response(furnace.read_register(furnace.PID_P))
+    I_val = furnace.parse_response(furnace.read_register(furnace.PID_I))
+    D_val = furnace.parse_response(furnace.read_register(furnace.PID_D))
+    print(f'P: {P_val}, I: {I_val}, D:{D_val}')
+
 
     #just initialize and exit
     if args.initialize:

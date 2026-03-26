@@ -216,13 +216,14 @@ class DeltaDTB: #Hold SET Button, click cycle until seeing Co5H, turn it on to e
     def safe_write(self, address, value_or_list):
         """Internal helper for 3 silent retries on any write command."""
         is_list = isinstance(value_or_list, list)
-        for _ in range(3):
+        for _ in range(10):
             # Call plural function for lists, singular for single values
             success = self._write_register(address, value_or_list) if is_list else \
                       self._write_register(address, value_or_list)
             if success:
                 return True # Sucessful Write = True
-            time.sleep(0.1)
+            else:
+                time.sleep(0.01)
         return False # Failed Write = False
 
     # --- Read Action ---
@@ -257,6 +258,16 @@ class DeltaDTB: #Hold SET Button, click cycle until seeing Co5H, turn it on to e
             return None # Failed Read = None
 
     def _parse_response(self, resp, reg_index=0):
+        """
+        Extracts the hex string for a specific register index from the response.
+        reg_index=0 is the first register, 1 is the second, etc.
+        """
+        start = self.DATA_START + (reg_index * self.HEX_PER_REG)
+        end = start + self.HEX_PER_REG
+        return resp[start:end].decode().upper() # Return hex data
+
+    #public
+    def parse_response(self, resp, reg_index=0):
         """
         Extracts the hex string for a specific register index from the response.
         reg_index=0 is the first register, 1 is the second, etc.
