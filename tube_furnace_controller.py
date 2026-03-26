@@ -86,6 +86,8 @@ class SystemConfig:
     check_window_multiplier: int = 5    # Number of Attempt to trigger Stability Check in SOAK Mode before it END
     auto_tune_safety: float = 50.0      # Safety Range from Current Temperature for setting Auto-Tune
 
+    ctrl_method: int = 1 # Control method (PID/Program/Manual) 0: PID, 1: ON/OFF, 2: manual tuning, 3: PID program control
+
     @property
     def relay_memory_size(self) -> int:
         """Total list size for last relay cycle check."""
@@ -172,7 +174,7 @@ class DeltaDTB: #Hold SET Button, click cycle until seeing Co5H, turn it on to e
     CURR_PATTERN    = 0x1035  # Present executing pattern number
     CURR_CYCLE      = 0x1036  # Present pattern cycle current count
 
-    def __init__(self, config: SystemConfig, slave_id=1):
+    def __init__(self, config: SystemConfig, slave_id=1, ctl_method=1):
         self.cfg = config
         self.ser = serial.Serial(self.cfg.port, self.cfg.baud, bytesize=7, parity='E', stopbits=1, timeout=1)
         self.slave_id = slave_id

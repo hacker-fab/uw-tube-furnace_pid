@@ -25,7 +25,7 @@ def setup(furnace, cfg, target):
         print("invalid target temp!")
         exit()
     set_target(furnace, target)
-    set_ctrl_method(furnace, 0) #0: PID mode
+    set_ctrl_method(furnace, cfg.ctrl_method) #0: PID mode
     #get one temp reading to start so slew rate is always valid
     previous_temp = furnace.get_pv()
 
@@ -44,7 +44,7 @@ def moderate_slew(furnace, cfg, slew, current_temp, target_temp):
         else: #return control back to normal
             if (abs(slew) < (cfg.max_allowed_rate*slew_release_margin)):
                 if (current_control_method != 0):
-                    set_ctrl_method(furnace, 0)
+                    set_ctrl_method(furnace, cfg.ctrl_method)
                 moderating_slew = False
     elif (current_temp > target_temp): #we are cooling
         if (abs(slew) > (cfg.max_allowed_rate*slew_safety_margin)): #turn on the heating output @50% duty
@@ -56,7 +56,7 @@ def moderate_slew(furnace, cfg, slew, current_temp, target_temp):
         else: #return control back to normal
             if (abs(slew) < (cfg.max_allowed_rate*slew_release_margin)):
                 if (current_control_method != 0):
-                    set_ctrl_method(furnace, 0)
+                    set_ctrl_method(furnace, cfg.ctrl_method)
                 moderating_slew = False
 
 def main_loop(furnace, cfg):
@@ -84,9 +84,17 @@ if __name__ == "__main__":
     parser.add_argument('-p', '--port', required=True)
     parser.add_argument('-t', '--target_temp', type=float)
     parser.add_argument('-i', '--initialize', action='store_true')
+    parser.add_argument('-m', '--control_method', choices=['PID', 'ONOFF'], default='ONOFF')
     args = parser.parse_args()
 
-    cfg = SystemConfig(port=args.port, voltage=120)
+    if (args.control_method == 'PID'):
+        ctrl_method = 0
+    elif (args.control_method == 'ONOFF'):
+        ctrl_method = 1
+    else: #default
+        ctrl_method = 1
+
+    cfg = SystemConfig(port=args.port, voltage=120, ctrl_method=ctrl_method)
 
     furnace = DeltaDTB(cfg)
     furnace.stop()
