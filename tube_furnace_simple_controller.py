@@ -10,10 +10,11 @@ current_control_method = 0
 moderating_slew = False
 slow_heating = False
 slow_cooling = False
-slew_safety_margin = 0.75
-slew_release_margin = 0.65
-cooling_safety_margin = 0.60
-cooling_release_margin = 0.50
+slew_safety_margin = 0.70
+slew_release_margin = 0.69
+cooling_safety_margin = 0.65
+cooling_release_margin = 0.64
+original_target = 25
 
 def set_target(furnace, target):
     furnace.safe_write(furnace.SV, int(target*10))
@@ -24,11 +25,12 @@ def set_ctrl_method(furnace, method):
     current_control_method = method
 
 def setup(furnace, cfg, target):
-    global previous_temp
+    global previous_temp, original_target
     if (target > cfg.temp_limit_high) or (target < cfg.temp_limit_low):
         print("invalid target temp!")
         exit()
     set_target(furnace, target)
+    original_target = target
     set_ctrl_method(furnace, cfg.ctrl_method) #0: PID mode
     #get one temp reading to start so slew rate is always valid
     previous_temp = furnace.get_pv()
@@ -53,6 +55,7 @@ def moderate_slew(furnace, cfg, slew, current_temp, target_temp):
                 # if (current_control_method != 0):
                 #     set_ctrl_method(furnace, cfg.ctrl_method)
                 furnace.run()
+                set_target(furnace, original_target)
                 slow_heating = False
     elif ((slew <= 0) or slow_cooling): #we are cooling
         if (abs(slew) > (cfg.max_allowed_rate*slew_safety_margin)): #turn on the heating output @50% duty
@@ -66,7 +69,7 @@ def moderate_slew(furnace, cfg, slew, current_temp, target_temp):
             if (abs(slew) > (cfg.max_allowed_rate*cooling_release_margin)) and slow_cooling:
                 # if (current_control_method != 0):
                 #     set_ctrl_method(furnace, cfg.ctrl_method)
-                set_target(furnace, target_temp)
+                set_target(furnace, original_target)
                 slow_cooling = False
 
 def main_loop(furnace, cfg):
