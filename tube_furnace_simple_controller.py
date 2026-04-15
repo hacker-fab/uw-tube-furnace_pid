@@ -38,14 +38,13 @@ def setup(furnace, cfg, target):
 def calc_slew(prev_temp, curr_temp, timestep):
     slew = ((curr_temp-prev_temp)/timestep)*60 #want to measure in deg C/min
     return round(slew, 2)
-
 def moderate_slew(furnace, cfg, slew, current_temp, target_temp):
     global current_control_method, slow_heating, slow_cooling, moderating_slew
     if ((slew > 0) or slow_heating and not slow_cooling): #we are heating
         if (slew > (cfg.max_allowed_rate*slew_safety_margin)): #reduce heating instead of stopping fully
             if not slow_heating:
                 print("max heating rate approaching, lowering temporary target")
-                set_target(furnace, current_temp + 30)
+                set_target(furnace, current_temp + 20)
                 slow_heating = True
         else: #return control back to normal
             if (slew < (cfg.max_allowed_rate*slew_release_margin)) and slow_heating:
