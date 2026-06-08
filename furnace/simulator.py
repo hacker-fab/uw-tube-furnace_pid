@@ -15,7 +15,7 @@ from .config import Config
 class FakeFurnace:
     # Model constants (tuned for a believable-looking ramp, not realism).
     _AMBIENT = 25.0
-    _MAX_HEAT_RATE = 1.2     # °C/s at 100% power
+    _MAX_HEAT_RATE = 0.6     # °C/s at 100% power (~36 °C/min flat out)
     _COOL_COEFF = 0.0009     # natural loss per °C above ambient, per second
 
     def __init__(self, config: Config):
@@ -25,7 +25,7 @@ class FakeFurnace:
         self.power = 0.0
         self.ctrl_method = 0          # 0=PID, 2=manual
         self.manual_power = 0.0
-        self.p, self.i, self.d = 200.0, 100.0, 25.0
+        self.p, self.i, self.d = 600.0, 100.0, 25.0   # P -> 60 °C proportional band
         self._auto_tune = False
         self._at_until = 0.0
         self._last = time.monotonic()

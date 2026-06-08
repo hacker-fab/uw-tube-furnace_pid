@@ -61,9 +61,9 @@ class FurnaceController:
         self.recipe_name = recipe.name
         self.seg_idx = 0
         self.seg_phase = "ramp"          # "ramp" | "hold"
-        self._anchor_temp = 0.0
-        self._anchor_t = time.monotonic()
+        self._last_sp_t = time.monotonic()
         self._hold_t = time.monotonic()
+        self._gov = 1.0                  # current governor factor (1=full, 0=frozen)
         self.finished = False
 
         # Mode flags
@@ -110,9 +110,14 @@ class FurnaceController:
     # Trajectory
     # ------------------------------------------------------------------ #
     def _anchor_here(self):
-        """Start ramping the current segment from wherever we are, now."""
-        self._anchor_temp = self.temp if self.temp is not None else 25.0
-        self._anchor_t = time.monotonic()
+        """(Re)start the current segment ramp from the current temperature.
+
+        Used on load/resume. Setting the setpoint to the measured temp means
+        resuming never *jumps* the setpoint upward — the tracking clamp then
+        eases it back out, so there's no discontinuity after a safety event.
+        """
+        self.setpoint = self.temp if self.temp is not None else 25.0
+        self._last_sp_t = time.monotonic()
         self.seg_phase = "ramp"
 
     def load_recipe(self, recipe: Recipe):
@@ -129,8 +134,9 @@ class FurnaceController:
     def _advance_segment(self, now):
         self.seg_idx += 1
         if self.seg_idx < len(self.segments):
-            self._anchor_temp = self.setpoint
-            self._anchor_t = now
+            # Continue from the previous target (= current setpoint), not the
+            # measured temp, so consecutive ramps chain smoothly.
+            self._last_sp_t = now
             self.seg_phase = "ramp"
             seg = self.segments[self.seg_idx]
             self.log(f"segment {self.seg_idx}: ramp to {seg.target:.0f}°C "
@@ -142,30 +148,62 @@ class FurnaceController:
             else:
                 self.log("recipe complete - holding at target (OPERATING)")
 
+    def _governor_factor(self) -> float:
+        """Scale 1->0 as the measured heating rate climbs into the governor band.
+
+        Below ``rate_throttle_frac * max_rate`` the setpoint advances at full
+        speed; at ``max_rate`` it's frozen. This eases the rate into a ceiling
+        instead of slamming power off at a hard threshold. Cooling (negative
+        rate) is never throttled.
+        """
+        c = self.cfg
+        soft = c.max_rate * c.rate_throttle_frac
+        if self.rate <= soft:
+            return 1.0
+        if self.rate >= c.max_rate:
+            return 0.0
+        return (c.max_rate - self.rate) / (c.max_rate - soft)
+
     def _update_setpoint(self):
         now = time.monotonic()
+        dt_min = max(0.0, (now - self._last_sp_t) / 60.0)
+        self._last_sp_t = now
         if self.finished or self.seg_idx >= len(self.segments):
             self.finished = True
+            self._gov = 1.0
             return
         seg = self.segments[self.seg_idx]
 
         if self.seg_phase == "ramp":
-            elapsed_min = (now - self._anchor_t) / 60.0
-            delta = seg.ramp_rate * elapsed_min
-            if seg.target >= self._anchor_temp:
-                sp = min(seg.target, self._anchor_temp + delta)
-                reached = sp >= seg.target
-            else:
-                sp = max(seg.target, self._anchor_temp - delta)
-                reached = sp <= seg.target
+            # Advance the setpoint incrementally, throttled by the governor.
+            self._gov = self._governor_factor()
+            step = seg.ramp_rate * dt_min * self._gov
+            lead = self.cfg.setpoint_lead
+            if seg.target >= self.setpoint:                 # ramping up
+                sp = self.setpoint + step
+                if self.temp is not None:                   # tracking clamp (anti-windup)
+                    sp = min(sp, self.temp + lead)
+                sp = min(sp, seg.target)
+                reached = sp >= seg.target - 0.05
+            else:                                           # ramping down
+                sp = self.setpoint - step
+                if self.temp is not None:
+                    sp = max(sp, self.temp - lead)
+                sp = max(sp, seg.target)
+                reached = sp <= seg.target + 0.05
             self.setpoint = sp
             if reached:
                 self.setpoint = seg.target
                 self.seg_phase = "hold"
                 self._hold_t = now
         else:  # hold
+            self._gov = 1.0
             self.setpoint = seg.target
-            if (now - self._hold_t) / 60.0 >= seg.hold_min:
+            # Only count hold time once the temperature has actually settled.
+            if (self.temp is not None
+                    and abs(self.temp - seg.target) > self.cfg.hold_band):
+                self._hold_t = now
+            elif (now - self._hold_t) / 60.0 >= seg.hold_min:
                 self._advance_segment(now)
 
     # ------------------------------------------------------------------ #
@@ -176,19 +214,19 @@ class FurnaceController:
         c = self.cfg
         if self.tripped:
             if (self.temp < c.safety_limit - c.safety_hys
-                    and self.rate < c.max_rate - c.rate_hys):
+                    and self.rate < c.emergency_rate - c.rate_hys):
                 self.tripped = False
                 self.furnace.set_control_method(0)
-                self._anchor_here()      # don't let the PID slam after resume
+                self._anchor_here()      # resume from current temp (no jump)
                 self.log(f"safe again ({self.temp:.1f}°C, {self.rate:.1f}°C/min) "
                          "- resuming")
                 return False
             return True
-        if self.temp >= c.safety_limit or self.rate >= c.max_rate:
+        if self.temp >= c.safety_limit or self.rate >= c.emergency_rate:
             self.tripped = True
             self.furnace.emergency_stop()
-            self.log(f"[!] SAFETY TRIP {self.temp:.1f}°C {self.rate:+.1f}°C/min "
-                     "- power cut")
+            self.log(f"[!] EMERGENCY CUT {self.temp:.1f}°C {self.rate:+.1f}°C/min "
+                     "- power off")
             return True
         return False
 
@@ -423,7 +461,9 @@ class FurnaceController:
         t.add_row("temp", f"[bold yellow]{temp} °C[/]   "
                           f"setpoint {self.setpoint:.1f} °C   "
                           f"target {self.cfg.target_temp:.0f} °C")
-        t.add_row("rate", f"{self.rate:+.2f} °C/min   power {self.power:.0f}%")
+        gov = "" if self._gov >= 0.99 else f"   [yellow]rate-gov {self._gov * 100:.0f}%[/]"
+        t.add_row("rate", f"{self.rate:+.2f} °C/min   power {self.power:.0f}%"
+                          f"   (limit {self.cfg.max_rate:.0f}){gov}")
         t.add_row("pid", f"P={self.kp}  I={self.ki}  D={self.kd}")
         t.add_row("time", f"{self.now_s:.0f} s")
 

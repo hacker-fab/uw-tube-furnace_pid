@@ -30,11 +30,24 @@ class Config:
     temp_limit_high: float = 1150.0
     sensor_type: int = 0            # 0 = K-type thermocouple
 
-    # --- Software safety net (independent of the DTB's own limits) ---
+    # --- Rate governor (graduated; the normal way we limit heating rate) ---
+    # As the measured rate climbs toward max_rate we proportionally slow the
+    # setpoint advance instead of cutting power, so the rate eases into a
+    # ceiling rather than sawtoothing. setpoint_lead caps how far the setpoint
+    # may run ahead of the measured temperature (anti-windup): it bounds the
+    # PID error and therefore the peak power / heating rate.
+    max_rate: float = 30.0          # °C/min the governor holds under
+    rate_throttle_frac: float = 0.7  # start throttling at this fraction of max_rate
+    setpoint_lead: float = 50.0     # max °C the setpoint may lead the temperature
+
+    # --- Hard safety net (last-resort backstop; should rarely fire) ---
     safety_limit: float = 1120.0    # force 0% power above this PV
     safety_hys: float = 5.0         # must drop this far below before resuming
-    max_rate: float = 35.0          # force 0% power above this heating rate
+    emergency_rate: float = 45.0    # force 0% power above this heating rate (runaway)
     rate_hys: float = 5.0
+
+    # --- Hold ---
+    hold_band: float = 5.0          # count hold time only once temp is within this of target
 
     # --- Cooling ---
     safe_cool_rate: float = 10.0    # °C/min setpoint walk-down during cooldown
