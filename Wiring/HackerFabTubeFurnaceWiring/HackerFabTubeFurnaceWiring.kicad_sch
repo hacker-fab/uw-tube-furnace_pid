@@ -1,0 +1,3963 @@
+(kicad_sch
+	(version 20260306)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "edfed444-7664-44a7-a396-e093498d045f")
+	(paper "A4")
+	(lib_symbols
+		(symbol "HackerFabTubeFurnaceWiringSymbols:Contactor"
+			(pin_names
+				(offset 2.54)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "CTR"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "Contactor_0_1"
+				(rectangle
+					(start 2.54 12.7)
+					(end -8.89 -13.97)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "Contactor_1_1"
+				(pin input line
+					(at 2.54 10.16 0)
+					(length 2.54)
+					(name "L3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 2.54 7.62 0)
+					(length 2.54)
+					(name "L2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 2.54 5.08 0)
+					(length 2.54)
+					(name "L1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 2.54 2.54 0)
+					(length 2.54)
+					(name "A1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 2.54 -2.54 0)
+					(length 2.54)
+					(name "A2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 2.54 -5.08 0)
+					(length 2.54)
+					(name "T1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 2.54 -7.62 0)
+					(length 2.54)
+					(name "T2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 2.54 -10.16 0)
+					(length 2.54)
+					(name "T3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "HackerFabTubeFurnaceWiringSymbols:DCPower"
+			(pin_names
+				(offset 2.54)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "DC"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "DCPower_0_1"
+				(rectangle
+					(start 2.54 3.81)
+					(end -3.175 -2.54)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "DCPower_1_1"
+				(pin output line
+					(at 2.54 2.54 0)
+					(length 2.54)
+					(name "+"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 2.54 -1.27 0)
+					(length 2.54)
+					(name "-"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "HackerFabTubeFurnaceWiringSymbols:Fusebox"
+			(pin_names
+				(offset 2.54)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "Fuse"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "Fusebox_0_1"
+				(rectangle
+					(start -5.08 -1.27)
+					(end 7.62 1.905)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "Fusebox_1_1"
+				(pin output line
+					(at 7.62 0 0)
+					(length 2.54)
+					(name "out"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -5.08 0 0)
+					(length 2.54)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "in"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "HackerFabTubeFurnaceWiringSymbols:Ground_Pin"
+			(pin_names
+				(offset 2.54)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "GND"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "Ground_Pin_0_1"
+				(rectangle
+					(start -1.905 6.35)
+					(end 1.905 -0.635)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "Ground_Pin_1_1"
+				(pin output line
+					(at 0 6.35 90)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "HackerFabTubeFurnaceWiringSymbols:Quick_View764-00/003"
+			(power global)
+			(pin_names
+				(offset 2.54)
+			)
+			(exclude_from_sim no)
+			(in_bom no)
+			(on_board no)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "PWR"
+				(at -0.254 2.794 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "Quick_View764-00/003_0_1"
+				(rectangle
+					(start -6.35 11.43)
+					(end 3.81 -10.16)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "Quick_View764-00/003_1_1"
+				(pin output line
+					(at 3.81 8.89 0)
+					(length 2.54)
+					(name "Live"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 3.81 0 0)
+					(length 2.54)
+					(name "Ground"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 3.81 -7.62 0)
+					(length 2.54)
+					(name "Neutral"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "HackerFabTubeFurnaceWiringSymbols:RS485_to_USB"
+			(pin_names
+				(offset 2.54)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "USB"
+				(at 3.81 0.254 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "RS485_to_USB_0_1"
+				(rectangle
+					(start -3.175 6.35)
+					(end 10.16 -0.635)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "RS485_to_USB_1_1"
+				(pin output line
+					(at -1.27 6.35 90)
+					(length 2.54)
+					(name "T/R+"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 1.27 6.35 90)
+					(length 2.54)
+					(name "T/R-"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 3.81 6.35 90)
+					(length 2.54)
+					(name "RXD+"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 6.35 6.35 90)
+					(length 2.54)
+					(name "RXD-"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 8.89 6.35 90)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "HackerFabTubeFurnaceWiringSymbols:Solid_State_Relay"
+			(pin_names
+				(offset 2.54)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "SSR"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "Solid_State_Relay_0_1"
+				(rectangle
+					(start 3.81 7.62)
+					(end -3.81 -7.62)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "Solid_State_Relay_1_1"
+				(pin passive line
+					(at 3.81 5.08 0)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 3.81 2.54 0)
+					(length 2.54)
+					(name "+"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 3.81 -2.54 0)
+					(length 2.54)
+					(name "-"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 3.81 -5.08 0)
+					(length 2.54)
+					(name "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "HackerFabTubeFurnaceWiringSymbols:ThermoCouple"
+			(pin_names
+				(offset 2.54)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "TC"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "ThermoCouple_0_1"
+				(rectangle
+					(start 2.54 3.81)
+					(end -5.08 -3.81)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "ThermoCouple_1_1"
+				(pin passive line
+					(at 2.54 2.54 180)
+					(length 2.54)
+					(name "+"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 2.54 -2.54 180)
+					(length 2.54)
+					(name "-"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "HackerFabTubeFurnaceWiringSymbols:Thermocouple"
+			(pin_names
+				(offset 2.54)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "TC"
+				(at -4.826 0.508 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "Thermocouple_0_1"
+				(rectangle
+					(start -11.43 10.16)
+					(end 1.27 -8.89)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "Thermocouple_1_1"
+				(pin passive line
+					(at -11.43 7.62 180)
+					(length 2.54)
+					(name "12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -11.43 5.08 180)
+					(length 2.54)
+					(name "11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -11.43 2.54 180)
+					(length 2.54)
+					(name "10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -11.43 -1.27 180)
+					(length 2.54)
+					(name "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -11.43 -3.81 180)
+					(length 2.54)
+					(name "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -11.43 -6.35 180)
+					(length 2.54)
+					(name "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 1.27 7.62 0)
+					(length 2.54)
+					(name "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 1.27 5.08 0)
+					(length 2.54)
+					(name "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 1.27 2.54 0)
+					(length 2.54)
+					(name "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 1.27 -1.27 0)
+					(length 2.54)
+					(name "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 1.27 -3.81 0)
+					(length 2.54)
+					(name "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 1.27 -6.35 0)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "HackerFabTubeFurnaceWiringSymbols:TubeFurnace"
+			(pin_names
+				(offset 2.54)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "TF"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "TubeFurnace_0_1"
+				(rectangle
+					(start -1.27 2.54)
+					(end 5.08 -10.16)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "TubeFurnace_1_1"
+				(pin output line
+					(at -1.27 -2.54 180)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -1.27 -5.08 180)
+					(length 2.54)
+					(name "Live"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -1.27 -7.62 180)
+					(length 2.54)
+					(name "Neutral"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "HackerFabTubeFurnaceWiringSymbols:tc4sp-14r"
+			(pin_names
+				(offset 2.54)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "HL"
+				(at 5.334 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "tc4sp-14r_0_1"
+				(rectangle
+					(start -1.27 9.525)
+					(end 11.43 -9.525)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "tc4sp-14r_1_1"
+				(pin output line
+					(at -1.27 7.62 180)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -1.27 5.08 180)
+					(length 2.54)
+					(name "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -1.27 2.54 180)
+					(length 2.54)
+					(name "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -1.27 -2.54 180)
+					(length 2.54)
+					(name "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -1.27 -5.08 180)
+					(length 2.54)
+					(name "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -1.27 -7.62 180)
+					(length 2.54)
+					(name "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 11.43 7.62 0)
+					(length 2.54)
+					(name "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 11.43 5.08 0)
+					(length 2.54)
+					(name "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 11.43 2.54 0)
+					(length 2.54)
+					(name "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 11.43 -2.54 0)
+					(length 2.54)
+					(name "10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 11.43 -5.08 0)
+					(length 2.54)
+					(name "11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 11.43 -7.62 0)
+					(length 2.54)
+					(name "12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "ThermoCouple_1"
+			(pin_names
+				(offset 2.54)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "TC"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "ThermoCouple_1_0_1"
+				(rectangle
+					(start 2.54 3.81)
+					(end -5.08 -3.81)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "ThermoCouple_1_1_1"
+				(pin passive line
+					(at 2.54 2.54 180)
+					(length 2.54)
+					(name "+"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 2.54 -2.54 180)
+					(length 2.54)
+					(name "-"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	)
+	(junction
+		(at 45.72 20.32)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "091f837b-4ddf-40a4-9538-35281a544046")
+	)
+	(junction
+		(at 105.41 43.18)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "6c783abb-bca4-45f8-ad54-4c4665ca6d3d")
+	)
+	(junction
+		(at 44.45 76.2)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "77b043a1-1d3c-475e-8de9-bedf4dda9f66")
+	)
+	(junction
+		(at 137.16 22.86)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "b343929a-90cd-438b-9d1c-cf6e99e3cef5")
+	)
+	(junction
+		(at 92.71 57.15)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "f6376056-ed71-40e2-af16-027997f60f5a")
+	)
+	(junction
+		(at 85.09 15.24)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "f7d811f8-47f5-422c-944a-100cb8919903")
+	)
+	(wire
+		(pts
+			(xy 124.46 138.43) (xy 124.46 142.24)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "04bf3b95-cf26-40b8-a516-5ef98135f035")
+	)
+	(wire
+		(pts
+			(xy 52.07 142.24) (xy 102.87 142.24)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0955d5a5-0013-4f8e-a464-ca50e0bdcbd5")
+	)
+	(wire
+		(pts
+			(xy 140.97 48.26) (xy 140.97 105.41)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "09790c04-9954-4a38-94bc-666ac0d40d9c")
+	)
+	(wire
+		(pts
+			(xy 90.17 64.77) (xy 52.07 64.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0b7fd189-4c14-4a7f-941a-0bc5f55ad4f1")
+	)
+	(wire
+		(pts
+			(xy 102.87 113.03) (xy 74.93 113.03)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0e389eed-7aa4-4a38-8d0f-8d3cd83f5ea8")
+	)
+	(wire
+		(pts
+			(xy 105.41 43.18) (xy 139.7 43.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0f894357-fd3e-477b-94c5-83af57ef4ab1")
+	)
+	(wire
+		(pts
+			(xy 106.68 50.8) (xy 114.3 50.8)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "133e9a39-5d62-47cb-ad83-1a701d892a80")
+	)
+	(wire
+		(pts
+			(xy 135.89 82.55) (xy 135.89 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1a157dc2-ba26-4edd-83f5-66233488d6d0")
+	)
+	(wire
+		(pts
+			(xy 90.17 45.72) (xy 90.17 64.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1c0438ee-48f7-48ab-bda9-47bd348e1f10")
+	)
+	(wire
+		(pts
+			(xy 67.31 76.2) (xy 44.45 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "21b956bd-d00c-4f75-8615-eb8932bb0048")
+	)
+	(wire
+		(pts
+			(xy 44.45 82.55) (xy 135.89 82.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "24210734-7af9-4fef-9605-420569d90e07")
+	)
+	(wire
+		(pts
+			(xy 40.64 31.75) (xy 33.02 31.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2526ea73-934c-4c37-9c8e-43dc393ba0e8")
+	)
+	(wire
+		(pts
+			(xy 74.93 110.49) (xy 92.71 110.49)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2bf8ea8a-e80d-4276-90b7-b5889b496e2e")
+	)
+	(wire
+		(pts
+			(xy 127 59.69) (xy 137.16 59.69)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2c5e14df-e272-46b1-a6e9-80dd94edf825")
+	)
+	(wire
+		(pts
+			(xy 109.22 48.26) (xy 109.22 138.43)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "35836666-4e22-49f9-8e15-b3c973fa5655")
+	)
+	(wire
+		(pts
+			(xy 45.72 20.32) (xy 33.02 24.13)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3645c04e-4003-4d2b-b243-e4fb0a8d1271")
+	)
+	(wire
+		(pts
+			(xy 36.83 119.38) (xy 36.83 132.08)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3c03f1cf-c33a-4475-a2f7-bd6641446aba")
+	)
+	(wire
+		(pts
+			(xy 105.41 146.05) (xy 19.05 146.05)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3f5a3089-ccfb-4bb4-a279-545aa9627233")
+	)
+	(wire
+		(pts
+			(xy 33.02 15.24) (xy 85.09 15.24)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "414bc2ba-678c-4720-859e-b8ea1a2fcf11")
+	)
+	(wire
+		(pts
+			(xy 41.91 114.3) (xy 41.91 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4202988f-9529-4855-9749-9f772e192a0c")
+	)
+	(wire
+		(pts
+			(xy 40.64 110.49) (xy 40.64 101.6)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "42478952-29cf-44f4-a01f-1df55f76ea49")
+	)
+	(wire
+		(pts
+			(xy 114.3 57.15) (xy 92.71 57.15)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "444e3077-37ae-403a-87f0-5af65407b7b7")
+	)
+	(wire
+		(pts
+			(xy 135.89 62.23) (xy 127 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "49518e4f-2300-4bd9-9c8b-29aa27301fc9")
+	)
+	(wire
+		(pts
+			(xy 92.71 38.1) (xy 92.71 57.15)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4d05c143-4829-4ddd-8cdf-a37360a26eae")
+	)
+	(wire
+		(pts
+			(xy 137.16 22.86) (xy 124.46 22.86)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "53a760e7-98f3-4ea7-ac64-72c63898f8dd")
+	)
+	(wire
+		(pts
+			(xy 44.45 76.2) (xy 40.64 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "53eb494a-6893-471a-9c14-049ef1820ba5")
+	)
+	(wire
+		(pts
+			(xy 85.09 15.24) (xy 85.09 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "54d8f358-3284-4027-96b1-998f3076423b")
+	)
+	(wire
+		(pts
+			(xy 49.53 123.19) (xy 62.23 123.19)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "60e74766-324e-4b5c-8dd8-cb95802ee7ab")
+	)
+	(wire
+		(pts
+			(xy 92.71 38.1) (xy 74.93 38.1)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "65ab9427-da52-4974-a4c9-ba7bfcae86fb")
+	)
+	(wire
+		(pts
+			(xy 58.42 16.51) (xy 204.47 16.51)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6e832091-e755-4cbb-a65a-3954e20c8aca")
+	)
+	(wire
+		(pts
+			(xy 40.64 76.2) (xy 40.64 31.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "703623fd-4f3c-4afd-8e0d-58e5b5d2e270")
+	)
+	(wire
+		(pts
+			(xy 121.92 69.85) (xy 106.68 69.85)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "73ab851c-445c-4a45-980b-f228ee5cdf1e")
+	)
+	(wire
+		(pts
+			(xy 127 48.26) (xy 140.97 48.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "763807bb-b124-4961-a292-6ac0326a6eb2")
+	)
+	(wire
+		(pts
+			(xy 139.7 30.48) (xy 124.46 30.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7c6a41fa-51d5-428a-9cde-ff12deeccd99")
+	)
+	(wire
+		(pts
+			(xy 91.44 120.65) (xy 74.93 120.65)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "85d9aa59-f1d3-4ccd-a2c4-061a8d684d36")
+	)
+	(wire
+		(pts
+			(xy 139.7 43.18) (xy 139.7 30.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8699a174-db4f-4053-ba70-45ddb65a1bf9")
+	)
+	(wire
+		(pts
+			(xy 58.42 16.51) (xy 45.72 20.32)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "86a7cb99-88d6-4b5f-b0fe-c2925546f24a")
+	)
+	(wire
+		(pts
+			(xy 140.97 105.41) (xy 20.32 105.41)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "88812dbd-7ee2-4fa1-8aac-d232de6e3bed")
+	)
+	(wire
+		(pts
+			(xy 90.17 123.19) (xy 74.93 123.19)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "89d44f61-7c64-4b1c-aec4-dcd9bbf6bbde")
+	)
+	(wire
+		(pts
+			(xy 114.3 48.26) (xy 109.22 48.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8ae98b57-5092-435c-ad10-e268e82df8b5")
+	)
+	(wire
+		(pts
+			(xy 132.08 35.56) (xy 74.93 35.56)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8b46d590-908b-4911-b5d1-5f62ad7639ea")
+	)
+	(wire
+		(pts
+			(xy 19.05 142.24) (xy 39.37 142.24)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8bcef8a1-cc38-4104-90f2-76da3249b1e3")
+	)
+	(wire
+		(pts
+			(xy 45.72 71.12) (xy 67.31 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8d9b76c8-27d7-441e-906e-31bfdb8ef205")
+	)
+	(wire
+		(pts
+			(xy 45.72 20.32) (xy 45.72 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8f940040-8265-47bb-ad7a-217891cae528")
+	)
+	(wire
+		(pts
+			(xy 138.43 53.34) (xy 127 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "922556ce-b38c-43b4-8053-e75463d86c14")
+	)
+	(wire
+		(pts
+			(xy 36.83 132.08) (xy 91.44 132.08)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "931a4c92-7ea0-4d6a-abf5-37911b399d59")
+	)
+	(wire
+		(pts
+			(xy 85.09 91.44) (xy 49.53 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "94670679-cceb-418b-b267-6b60b2896ebe")
+	)
+	(wire
+		(pts
+			(xy 124.46 25.4) (xy 100.33 25.4)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "97e16d32-7994-40c9-a3da-15327a95dac2")
+	)
+	(wire
+		(pts
+			(xy 74.93 45.72) (xy 90.17 45.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "98ed615d-ea03-46da-a2a4-370503929d3f")
+	)
+	(wire
+		(pts
+			(xy 85.09 15.24) (xy 137.16 15.24)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a2cc755d-fce2-4dd2-881b-f2910d6bb9e6")
+	)
+	(wire
+		(pts
+			(xy 137.16 22.86) (xy 137.16 59.69)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a74779e2-c84d-45d1-8557-9e506a574370")
+	)
+	(wire
+		(pts
+			(xy 40.64 101.6) (xy 138.43 101.6)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a781d658-7c6a-47c4-a17c-a289b2d5ac31")
+	)
+	(wire
+		(pts
+			(xy 100.33 53.34) (xy 114.3 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a913b24e-f815-4fe0-9a78-e2e13144b78c")
+	)
+	(wire
+		(pts
+			(xy 124.46 33.02) (xy 132.08 33.02)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b67befcd-66d3-4ad0-a7e6-e7e853262b02")
+	)
+	(wire
+		(pts
+			(xy 100.33 25.4) (xy 100.33 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b77836db-6b05-4cd5-b7f3-d001d901c4f5")
+	)
+	(wire
+		(pts
+			(xy 52.07 73.66) (xy 67.31 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ba0a8f88-d1cf-44dd-aabb-52f4f55d6a57")
+	)
+	(wire
+		(pts
+			(xy 90.17 129.54) (xy 90.17 123.19)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bb483b19-5215-4d48-9568-4bc3293f31ae")
+	)
+	(wire
+		(pts
+			(xy 20.32 110.49) (xy 40.64 110.49)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c037607e-c8cc-4b71-8bb4-03b583693860")
+	)
+	(wire
+		(pts
+			(xy 132.08 33.02) (xy 132.08 35.56)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c1d06804-a4cc-45fd-b2e6-383da439331f")
+	)
+	(wire
+		(pts
+			(xy 106.68 69.85) (xy 106.68 50.8)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c671871b-41fe-429a-b450-85818b01faf9")
+	)
+	(wire
+		(pts
+			(xy 49.53 91.44) (xy 49.53 123.19)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c6cda363-0e05-41ba-98af-90476ed69aa3")
+	)
+	(wire
+		(pts
+			(xy 102.87 142.24) (xy 102.87 113.03)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cc5be017-7dc6-42fa-9a39-f6c53f3a80ce")
+	)
+	(wire
+		(pts
+			(xy 44.45 76.2) (xy 44.45 82.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cccab1fb-8519-4aac-9094-ed12c3cee916")
+	)
+	(wire
+		(pts
+			(xy 52.07 64.77) (xy 52.07 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ce7b4ef3-5518-40b9-a7e7-f4521ccb1645")
+	)
+	(wire
+		(pts
+			(xy 91.44 132.08) (xy 91.44 120.65)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d480a557-7c89-48b3-864f-ce3cc27a5889")
+	)
+	(wire
+		(pts
+			(xy 204.47 161.29) (xy 179.07 158.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d5179ac1-208b-4fdb-bcec-eb0133e4c40a")
+	)
+	(wire
+		(pts
+			(xy 137.16 15.24) (xy 137.16 22.86)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ddeaba7d-4bb1-43a7-9b5c-782c11bdd0e9")
+	)
+	(wire
+		(pts
+			(xy 41.91 129.54) (xy 90.17 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e1cedf80-4720-443d-a924-d0e11c77dd41")
+	)
+	(wire
+		(pts
+			(xy 20.32 119.38) (xy 36.83 119.38)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ee5e90b3-132b-423f-be37-13468e8db273")
+	)
+	(wire
+		(pts
+			(xy 74.93 43.18) (xy 105.41 43.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ef91294e-28a9-4d6f-8888-5926f68f4d7b")
+	)
+	(wire
+		(pts
+			(xy 121.92 142.24) (xy 121.92 69.85)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f23dd067-f86e-4c8f-bb8c-f46e3f94198c")
+	)
+	(wire
+		(pts
+			(xy 204.47 16.51) (xy 204.47 161.29)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f41c57b3-eb65-4b42-b376-e9288c135e87")
+	)
+	(wire
+		(pts
+			(xy 105.41 43.18) (xy 105.41 146.05)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f515fde9-1099-4682-aa7e-b9faa03330be")
+	)
+	(wire
+		(pts
+			(xy 92.71 57.15) (xy 92.71 110.49)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f5d6ca79-29e8-4258-8a90-24f484c4e600")
+	)
+	(wire
+		(pts
+			(xy 20.32 114.3) (xy 41.91 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f6d4660d-f28f-418a-a0b9-b368999285f7")
+	)
+	(wire
+		(pts
+			(xy 138.43 53.34) (xy 138.43 101.6)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f899d17e-74bf-4bbf-805e-3fa21d0dafb4")
+	)
+	(wire
+		(pts
+			(xy 109.22 138.43) (xy 124.46 138.43)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fdae2ada-3cd9-48dc-9bec-fe0b4c4df7d1")
+	)
+	(label "DC-"
+		(at 29.21 146.05 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "01aaa664-a191-4fc9-9ea4-38be00926f24")
+	)
+	(label "Live"
+		(at 87.63 45.72 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "04f8984c-ff26-4a5c-b4b9-1839e74b6137")
+	)
+	(label "DC+"
+		(at 29.21 142.24 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "05f2d85c-5349-4383-85a0-200557ccdf0c")
+	)
+	(label "Live"
+		(at 127 35.56 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "4617c61a-59cc-4a23-8fa5-940632732a46")
+	)
+	(label "Neutral"
+		(at 40.64 43.18 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "8be4d563-6058-4f90-9e2e-3bb464c9d0c4")
+	)
+	(label "TC-"
+		(at 31.75 119.38 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "8e8ab558-9316-43a9-88b5-cedf38b482c2")
+	)
+	(label "DC+"
+		(at 110.49 25.4 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "9a7d84f0-6296-4f5e-8be7-926cfa86aa41")
+	)
+	(label "Ground"
+		(at 45.72 22.86 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "b1cbb5cb-28de-4081-8248-a4c0d1381384")
+	)
+	(label "TC+"
+		(at 31.75 114.3 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "c16b4148-e37b-466c-b6aa-964c694d931b")
+	)
+	(label "DC+"
+		(at 86.36 110.49 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "cde2cc39-28ba-4a36-bafd-a63a8d2eb554")
+	)
+	(label "Live"
+		(at 85.09 24.13 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "d82c6de3-3e7e-4bd8-acb9-4c185c9436cd")
+	)
+	(label "TC-"
+		(at 31.75 110.49 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "e79cfbfa-fc1b-44a0-a591-956eabf2a543")
+	)
+	(label "TC+"
+		(at 31.75 105.41 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "eacb4db0-1448-41d3-aed9-7ec8012584e7")
+	)
+	(label "DC+"
+		(at 63.5 142.24 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "f400a875-a68a-492f-8f95-f0af063c9702")
+	)
+	(symbol
+		(lib_id "HackerFabTubeFurnaceWiringSymbols:Solid_State_Relay")
+		(at 120.65 27.94 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "15b6f267-a31f-4eef-9ac6-0ab6f3e9304c")
+		(property "Reference" "SSP1A125BDTrelay"
+			(at 120.65 38.354 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" ""
+			(at 120.65 27.94 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 120.65 27.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 120.65 27.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 120.65 27.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin ""
+			(uuid "af52e993-7625-4ce5-a6ea-0b07a6cdf51c")
+		)
+		(pin ""
+			(uuid "81e15b51-0209-4674-92c9-3832761163ac")
+		)
+		(pin ""
+			(uuid "9ca83738-279a-415c-b696-94f5261989b0")
+		)
+		(pin ""
+			(uuid "1010dcfc-d2f0-4497-b2a7-2c92ae9d32eb")
+		)
+		(instances
+			(project "HackerFabTubeFurnaceWiring"
+				(path "/edfed444-7664-44a7-a396-e093498d045f"
+					(reference "SSP1A125BDTrelay")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "HackerFabTubeFurnaceWiringSymbols:Quick_View764-00/003")
+		(at 29.21 24.13 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board no)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "23787254-11e3-41c5-a1cb-278157ebdafe")
+		(property "Reference" "3ProngConnector"
+			(at 29.21 35.56 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" ""
+			(at 29.21 24.13 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 29.21 24.13 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 29.21 24.13 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 29.21 24.13 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "448d4d8d-a41b-41d0-8109-03ccde24e25b")
+		)
+		(pin "2"
+			(uuid "d24347c5-0b17-49f7-972f-174ba2ec4d9a")
+		)
+		(pin "3"
+			(uuid "fc16061a-b2a8-4f31-9ae2-8df43998d3da")
+		)
+		(instances
+			(project "HackerFabTubeFurnaceWiring"
+				(path "/edfed444-7664-44a7-a396-e093498d045f"
+					(reference "3ProngConnector")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "HackerFabTubeFurnaceWiringSymbols:TubeFurnace")
+		(at 68.58 68.58 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "241a5e57-089d-4b99-b8de-ab46ce099979")
+		(property "Reference" "TubeFurnace"
+			(at 70.612 79.756 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" ""
+			(at 68.58 68.58 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 68.58 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 68.58 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 68.58 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin ""
+			(uuid "bc980477-0dc1-439a-b983-3a5c6b30d600")
+		)
+		(pin ""
+			(uuid "fa92732c-be4d-47f7-a75f-c5769587bff7")
+		)
+		(pin ""
+			(uuid "b5cd853e-654d-4ee5-b404-371e732c1ac9")
+		)
+		(instances
+			(project "HackerFabTubeFurnaceWiring"
+				(path "/edfed444-7664-44a7-a396-e093498d045f"
+					(reference "TubeFurnace")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "HackerFabTubeFurnaceWiringSymbols:Fusebox")
+		(at 44.45 142.24 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "2bdb4b47-bb91-45ce-bad4-948be415bf66")
+		(property "Reference" "Fuse1"
+			(at 44.45 142.24 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" ""
+			(at 44.45 142.24 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 44.45 142.24 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 44.45 142.24 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 44.45 142.24 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin ""
+			(uuid "26351777-0096-4c8b-abe1-9d019e295ad2")
+		)
+		(pin "in"
+			(uuid "a5805b7a-da60-4036-ad07-0b5b301b8507")
+		)
+		(instances
+			(project "HackerFabTubeFurnaceWiring"
+				(path "/edfed444-7664-44a7-a396-e093498d045f"
+					(reference "Fuse1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_name "ThermoCouple_1")
+		(lib_id "HackerFabTubeFurnaceWiringSymbols:ThermoCouple")
+		(at 17.78 116.84 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "2db994c4-58b2-4e70-92d2-36f3eb50cd75")
+		(property "Reference" "TC2"
+			(at 17.78 116.84 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" ""
+			(at 17.78 116.84 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 17.78 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 17.78 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 17.78 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin ""
+			(uuid "caedff11-35f8-438c-9ce6-ef326e36d368")
+		)
+		(pin ""
+			(uuid "2e68d818-da7d-4c51-86a8-5bc1418fc19b")
+		)
+		(instances
+			(project "HackerFabTubeFurnaceWiring"
+				(path "/edfed444-7664-44a7-a396-e093498d045f"
+					(reference "TC2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "HackerFabTubeFurnaceWiringSymbols:RS485_to_USB")
+		(at 123.19 148.59 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "378467a8-0254-4448-8a46-eef1fdc6ec95")
+		(property "Reference" "USB1"
+			(at 127 148.336 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" ""
+			(at 123.19 148.59 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 123.19 148.59 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 123.19 148.59 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 123.19 148.59 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin ""
+			(uuid "a376d32e-50aa-4d2c-8a8b-b594a0e3f71c")
+		)
+		(pin ""
+			(uuid "5295672a-01fe-4c75-a216-aa100ec050da")
+		)
+		(pin ""
+			(uuid "60d84483-359b-445d-9867-4bdb6229e6dd")
+		)
+		(pin ""
+			(uuid "b8ccd081-9634-4b48-9a31-8e68352083db")
+		)
+		(pin ""
+			(uuid "9a2f338b-85b5-426d-8139-280b64577a4e")
+		)
+		(instances
+			(project "HackerFabTubeFurnaceWiring"
+				(path "/edfed444-7664-44a7-a396-e093498d045f"
+					(reference "USB1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "HackerFabTubeFurnaceWiringSymbols:DCPower")
+		(at 16.51 144.78 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "4b56b82c-abf1-434b-a1da-7fd90dd9e5cd")
+		(property "Reference" "DC1"
+			(at 16.51 144.78 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" ""
+			(at 16.51 144.78 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 16.51 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 16.51 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 16.51 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin ""
+			(uuid "47268718-a4ee-47b2-8552-feb6ed950dd0")
+		)
+		(pin ""
+			(uuid "d5d75f13-3f3a-4f20-9840-33e90707e9ae")
+		)
+		(instances
+			(project "HackerFabTubeFurnaceWiring"
+				(path "/edfed444-7664-44a7-a396-e093498d045f"
+					(reference "DC1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "HackerFabTubeFurnaceWiringSymbols:Ground_Pin")
+		(at 179.07 165.1 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "51254dcd-69b8-46dc-8d29-1b86807fc199")
+		(property "Reference" "GND1"
+			(at 179.07 165.1 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" ""
+			(at 179.07 165.1 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 179.07 165.1 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 179.07 165.1 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 179.07 165.1 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin ""
+			(uuid "bb2defb2-270d-4e75-9fda-7b1c34333af8")
+		)
+		(instances
+			(project "HackerFabTubeFurnaceWiring"
+				(path "/edfed444-7664-44a7-a396-e093498d045f"
+					(reference "GND1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "HackerFabTubeFurnaceWiringSymbols:tc4sp-14r")
+		(at 63.5 118.11 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "58e263ed-28ed-42f8-b865-b2842cd6d0e4")
+		(property "Reference" "HL1"
+			(at 68.834 118.11 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" ""
+			(at 63.5 118.11 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 63.5 118.11 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 63.5 118.11 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 63.5 118.11 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin ""
+			(uuid "d9ea3e5b-249f-480c-8276-e9b395ab2ed5")
+		)
+		(pin ""
+			(uuid "7e3f5403-407a-4e3b-a42e-3f0c1e9d4908")
+		)
+		(pin ""
+			(uuid "b6da29b5-c197-4efb-8f95-82382e990025")
+		)
+		(pin ""
+			(uuid "09d20ad7-c154-4394-a9ca-d78924577004")
+		)
+		(pin ""
+			(uuid "5ba13d1d-58b6-48db-99fe-4e4aa0eae759")
+		)
+		(pin ""
+			(uuid "c48e2d56-b052-4416-afe0-8060b4e7394f")
+		)
+		(pin ""
+			(uuid "f7c0f918-dfff-417a-afcc-34fb04c0f3c3")
+		)
+		(pin ""
+			(uuid "bb247539-6ba4-4fd3-892a-b16b298adb08")
+		)
+		(pin ""
+			(uuid "10cf1e75-5d8b-4eb0-852c-f6893de6340a")
+		)
+		(pin ""
+			(uuid "d84e9063-dfc6-4bbc-a9a3-ca9835e2493a")
+		)
+		(pin ""
+			(uuid "98c9cf4f-7bb3-41a8-b810-4d173614148c")
+		)
+		(pin ""
+			(uuid "220c443d-0df6-49c6-aadb-af950067165a")
+		)
+		(instances
+			(project "HackerFabTubeFurnaceWiring"
+				(path "/edfed444-7664-44a7-a396-e093498d045f"
+					(reference "HL1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "HackerFabTubeFurnaceWiringSymbols:Thermocouple")
+		(at 125.73 55.88 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "a4ee5c8e-81bd-4511-911a-3fdb3a43744b")
+		(property "Reference" "DeltaDTB4824RRpidcontroller"
+			(at 121.412 66.548 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" ""
+			(at 125.73 55.88 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 125.73 55.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 125.73 55.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 125.73 55.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin ""
+			(uuid "413b6506-bba7-42bc-98e1-861c0e24a101")
+		)
+		(pin ""
+			(uuid "131f3e92-8b25-434d-bd0f-2e762583d8aa")
+		)
+		(pin ""
+			(uuid "7e22eaa8-ed6b-4926-9d67-17c5e252529a")
+		)
+		(pin ""
+			(uuid "f1f2bce5-bacf-44d8-9534-0e4e808c5625")
+		)
+		(pin ""
+			(uuid "585056f8-9a86-47e9-9515-65d7bace39be")
+		)
+		(pin ""
+			(uuid "1363dbad-44a6-41ca-a364-d0fac39db3b8")
+		)
+		(pin ""
+			(uuid "37ea5e51-8574-4b65-b703-dc99ba3ce8ab")
+		)
+		(pin ""
+			(uuid "b0e84aa3-04b8-4afb-9b17-ac8c44b3305b")
+		)
+		(pin ""
+			(uuid "e62be637-1c8b-47fc-bd15-c868b71aa556")
+		)
+		(pin ""
+			(uuid "f4816e27-5b84-438b-941a-2e33003b947d")
+		)
+		(pin ""
+			(uuid "64319e92-5267-4031-847b-bf97cd93c5f5")
+		)
+		(pin ""
+			(uuid "77c1ed6a-9f14-47ad-9c23-bde63c7dc0ec")
+		)
+		(instances
+			(project "HackerFabTubeFurnaceWiring"
+				(path "/edfed444-7664-44a7-a396-e093498d045f"
+					(reference "DeltaDTB4824RRpidcontroller")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "HackerFabTubeFurnaceWiringSymbols:Contactor")
+		(at 72.39 40.64 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "b4e69666-5e5c-44d0-b1df-5fcff0c5aa73")
+		(property "Reference" "EatonXTMC9A10RD"
+			(at 72.39 56.134 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" ""
+			(at 72.39 40.64 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 72.39 40.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 72.39 40.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 72.39 40.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin ""
+			(uuid "72ffb6f7-1a1d-4b50-8d1f-5ba241a39ec6")
+		)
+		(pin ""
+			(uuid "ce78a2ed-dbaf-40af-bb5a-ae8e3af1dee4")
+		)
+		(pin ""
+			(uuid "38649dc8-e6bb-4bdd-ba3f-4d7cfb66e9c8")
+		)
+		(pin ""
+			(uuid "f62cfceb-787f-403d-99dd-95a84218726d")
+		)
+		(pin ""
+			(uuid "30585b19-6db4-4251-a5e9-c292e565b09d")
+		)
+		(pin ""
+			(uuid "5705723b-1f5a-49bc-bc21-97083c6e55a1")
+		)
+		(pin ""
+			(uuid "2af58707-d691-42e6-8355-0a6a1a43e841")
+		)
+		(pin ""
+			(uuid "600d377d-9428-48d0-aa72-4399298ededd")
+		)
+		(instances
+			(project "HackerFabTubeFurnaceWiring"
+				(path "/edfed444-7664-44a7-a396-e093498d045f"
+					(reference "EatonXTMC9A10RD")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "HackerFabTubeFurnaceWiringSymbols:ThermoCouple")
+		(at 17.78 107.95 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "b7dc6783-2119-437c-86ee-db4f8219b48e")
+		(property "Reference" "TC1"
+			(at 17.78 107.95 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" ""
+			(at 17.78 107.95 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 17.78 107.95 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 17.78 107.95 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 17.78 107.95 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin ""
+			(uuid "8fb95658-082b-46c0-a3cd-ad2873ab8b99")
+		)
+		(pin ""
+			(uuid "af96c736-332e-4c73-baf4-aeca217c1d71")
+		)
+		(instances
+			(project "HackerFabTubeFurnaceWiring"
+				(path "/edfed444-7664-44a7-a396-e093498d045f"
+					(reference "TC1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+)
